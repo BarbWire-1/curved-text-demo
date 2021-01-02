@@ -42,12 +42,11 @@ clock.ontick = (evt): void => {
         // 24h format
         ampm = "";
         hours = util.zeroPad(hours);
-        //console.log("hours: "+hours)
+       
     }
-    let hours12 = String(hours % 12 || 12);
+    
     let mins = util.zeroPad(now.getMinutes());
-    //let secs = (now.getSeconds());
-    //let amPm = document.getElementById("amPm")// as ImageElement;
+    
 
     //TIME AND DATE
     //get Labels
@@ -57,9 +56,8 @@ clock.ontick = (evt): void => {
     let dateLabel = document.getElementById("dateLabel") as TextElement;
     let amPmLabel = document.getElementById("amPmLabel") as TextElement;
 
-    //hoursLabel012.text = util.zeroPad(hours12) + ":";
-    //hoursLabel12.text = hours12 + ":";
-    hoursLabel012.text = hours + ":";
+  
+    hoursLabel012.text = util.zeroPad(hours) + ":";
     hoursLabel12.text = hours + ":";
     minsLabel.text = ":" + mins;
     dateLabel.text = days[weekday] + " " + ("0" + monthday).slice(-2);
@@ -77,9 +75,9 @@ if (HeartRateSensor && BodyPresenceSensor) {
   const body = new BodyPresenceSensor({frequency: 1});
 
   hrm.addEventListener("reading", (): void => {
-    //console.log(`Current heart rate: ${hrm.heartRate}`);
+   
     hrLabel.text = String(hrm.heartRate ?? "--");
-    //console.log(`initiate${hrLabel.text}`);
+    
     
   });
 
@@ -115,8 +113,8 @@ const calsLabelWidget = (document as any).getWidgetById("calsLabel");
 let refreshSeconds = setInterval(mySeconds, 1000);
 
 function mySeconds(): void  {
-  let d = new Date();
-  let s = d.getSeconds();
+    let d = new Date();
+    let s = d.getSeconds();
     activityData.refresh();
     // Refresh stats Labels
     azmLabel.text = activityData.amz;
@@ -124,10 +122,12 @@ function mySeconds(): void  {
     stepsCurvedTextWidget.text = activityData.as;
     calsLabelWidget.text = activityData.ac;
 
-  myBattery.width = 26 / 100 * battery.chargeLevel;
-  chargeLabel.text = String(Math.floor(battery.chargeLevel)+"%");
+    myBattery.width = 26 / 100 * battery.chargeLevel;
+    chargeLabel.text = String(Math.floor(battery.chargeLevel)+"%");
    
 };
+
+
 // show data on click
 dataButton.onclick = function (evt): void {
     a++;
