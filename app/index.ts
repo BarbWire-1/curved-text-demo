@@ -11,16 +11,17 @@ import { display } from 'display';
 import { battery } from "power";
 import { vibration } from "haptics";
 import { goals, today } from "user-activity";
+import widgetFactory from './widgets/widget-factory'
+import curvedText from './widgets/curved-text'
+const widgets = widgetFactory([curvedText]);
+widgets.registerContainer(document);
+
 
 let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",];
-let months = ["Jan", "Feb",  "Mar",  "Apr",  "May",  "Jun",  "Jul",  "Aug",  "Sep",  "Oct",  "Nov", "Dec"];
 
 // CLOCK--------------------------------------------------------------------------------
 // Update the clock every minute
 clock.granularity = "minutes";
-
-// Get a handle on the <text> element
-
 
 // Update the <text> element every tick with the current time
 clock.ontick = (evt): void => {
@@ -34,12 +35,13 @@ clock.ontick = (evt): void => {
     if (preferences.clockDisplay === "12h") {
         // 12h format
         ampm = hours >= 12 ? "PM" : "AM";
-        //hours = hours % 12 || 12;
+        hours = hours % 12 || 12;
+        let hours0 = util.zeroPad(hours)
       
     } else {
         // 24h format
         ampm = "";
-        //hours = util.zeroPad(hours);
+        hours = util.zeroPad(hours);
         //console.log("hours: "+hours)
     }
     let hours12 = String(hours % 12 || 12);
@@ -55,8 +57,10 @@ clock.ontick = (evt): void => {
     let dateLabel = document.getElementById("dateLabel") as TextElement;
     let amPmLabel = document.getElementById("amPmLabel") as TextElement;
 
-    hoursLabel012.text = util.zeroPad(hours12) + ":";
-    hoursLabel12.text = hours12 + ":";
+    //hoursLabel012.text = util.zeroPad(hours12) + ":";
+    //hoursLabel12.text = hours12 + ":";
+    hoursLabel012.text = hours + ":";
+    hoursLabel12.text = hours + ":";
     minsLabel.text = ":" + mins;
     dateLabel.text = days[weekday] + " " + ("0" + monthday).slice(-2);
     amPmLabel.text = ampm;
@@ -105,6 +109,9 @@ let a = 0;
 // SECONDS ---------------------------------------------------------------------------------------
 // ACTIVITIES
 let azmLabel = document.getElementById("azmLabel") as TextElement;
+const stepsCurvedTextWidget = (document as any).getWidgetById('stepsLabel');
+const calsLabelWidget = (document as any).getWidgetById("calsLabel");
+
 let refreshSeconds = setInterval(mySeconds, 1000);
 
 function mySeconds(): void  {
@@ -114,8 +121,8 @@ function mySeconds(): void  {
     // Refresh stats Labels
     azmLabel.text = activityData.amz;
     
-    //stepsLabel.text = activityData.as;
-    //calsLabel.text = activityData.ac;
+    stepsCurvedTextWidget.text = activityData.as;
+    calsLabelWidget.text = activityData.ac;
 
   myBattery.width = 26 / 100 * battery.chargeLevel;
   chargeLabel.text = String(Math.floor(battery.chargeLevel)+"%");

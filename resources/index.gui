@@ -46,17 +46,25 @@
     <!--AZM-->
     <text id="azmLabel" x="100%-34" y="252" fill="white" font-family="Tungsten-Medium" font-size="25" text-anchor="middle" opacity="0" >000</text>
     <image id="azm" x="100%-45" y="260" width="24" height="24" href="azm.png" fill="white" opacity="1"/>
+
     <!--STEPS-->
     <g transform="translate(25,25) rotate(-65)">
         <image x="-12" y="-12" width="24" height="24"  href="steps.png" fill="white" />
     </g>
 
+    <use id="stepsLabel"  href="#curvedText"  x="168" y="168" font-family="Barlow-Regular" font-size="40" fill="red" opacity="0.5"> 
+      <set href="#position" attributeName="r" to="-90" />
+      <set href="#orientation" attributeName="start-angle" to="90" />
+    </use>
+
     <!--CALORIES-->
     <g transform="translate(100%-25,25) rotate(45)">
         <image x="-12" y="-12" width="24" height="24"  href="cals.png" fill="white" />
     </g>
-
-
+    <use id="calsLabel"  href="#curvedText"  x="168" y="168" font-family="Barlow-Regular" font-size="40" fill="red" opacity="0.5"> 
+        <set href="#position" attributeName="r" to="-90" />
+        <set href="#orientation" attributeName="start-angle" to="90" />
+    </use>
 
     <!--BUTTONS-->
     <rect id="dataButton" x="0" y="200" width="100%" height="100" fill="orange" opacity="0" pointer-events="visible"/>
