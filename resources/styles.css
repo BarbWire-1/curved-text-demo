@@ -43,3 +43,6 @@
     x: 168;
     y: 168;
 }
+.text {
+    text-anchor: middle;
+}

@@ -55,6 +55,7 @@
     <use id="stepsLabel"  href="#curvedText"  x="150" y="150" font-family="Colfax-Regular" font-size="25" fill="white" opacity="1"> 
       <set href="#position" attributeName="r" to="140" />
       <set href="#orientation" attributeName="start-angle" to="-45" />
+      <!--set href="#orientation" attributeName="sweep-angle" to="5" /-->
     </use>
 
     <!--CALORIES-->
@@ -64,6 +65,7 @@
     <use id="calsLabel"  href="#curvedText"  x="150" y="150" font-family="Colfax-Regular" font-size="25" fill="white" opacity="1"> 
         <set href="#position" attributeName="r" to="140" />
         <set href="#orientation" attributeName="start-angle" to="45" />
+        <!--set href="#orientation" attributeName="sweep-angle" to="5" /-->
     </use>
 
     <!--BUTTONS-->
