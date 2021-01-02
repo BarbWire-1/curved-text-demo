@@ -18,11 +18,18 @@
 		"appDisplayName": "curved-dext-demo",
 		"iconFile": "resources/icon.png",
 		"wipeColor": "#8bc34a",
-		"requestedPermissions": [],
+		
 		"buildTargets": [
 			"meson",
 			"mira"
 		],
+		"requestedPermissions": [
+      "run_background",
+      "access_activity",
+      "access_user_profile",
+      "access_heart_rate"
+      
+    ],
 		"i18n": {
 			"en-US": {
 				"name": "curved-dext-demo"
