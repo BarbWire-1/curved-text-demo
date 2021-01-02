@@ -60,17 +60,9 @@ clock.ontick = (evt): void => {
     minsLabel.text = ":" + mins;
     dateLabel.text = days[weekday] + " " + ("0" + monthday).slice(-2);
     amPmLabel.text = ampm;
-   
-    //dateLabel.text = (`${days[weekday]} ${months[month]} ${("0" + monthday).slice(-2)}`);
-    //console.log(`${days[weekday]} ${("0" + monthday).slice(-2)}. ${months[month]}`);
-    //amPm.href =   ampm + ".png";
-    //amPm.text = ampm;
- 
+    
   
-    // Refresh stats Labels
-    activityData.refresh();
-    //azmLabel.text = activityData.amz;
-    //floorsLabel.text = activityData.ae;
+    
 }; // END ON TICK
 
 // HEARTRATE-----------------------------------------------------------------------
@@ -100,3 +92,55 @@ if (HeartRateSensor && BodyPresenceSensor) {
     });
 body.start();
 }
+
+// BATTERY ------------------------------------------------------------------------------
+let chargeLabel = document.getElementById("chargeLabel") as TextElement
+let myBattery = document.getElementById("myBattery") as ImageElement;
+let dataButton = document.getElementById("dataButton");
+let bat = document.getElementById("bat") as any ;
+let a = 0;
+
+
+
+// SECONDS ---------------------------------------------------------------------------------------
+// ACTIVITIES
+let azmLabel = document.getElementById("azmLabel") as TextElement;
+let refreshSeconds = setInterval(mySeconds, 1000);
+
+function mySeconds(): void  {
+  let d = new Date();
+  let s = d.getSeconds();
+    activityData.refresh();
+    // Refresh stats Labels
+    azmLabel.text = activityData.amz;
+    
+    //stepsLabel.text = activityData.as;
+    //calsLabel.text = activityData.ac;
+
+  myBattery.width = 26 / 100 * battery.chargeLevel;
+  chargeLabel.text = String(Math.floor(battery.chargeLevel)+"%");
+   
+};
+// show data on click
+dataButton.onclick = function (evt): void {
+    a++;
+    a = a % 2;
+    vibration.start("bump");
+    if (a == 1) {
+  
+        azmLabel.style.opacity = 1;
+        chargeLabel.style.opacity = 1;
+    } else {
+        azmLabel.style.opacity = 0;
+        chargeLabel.style.opacity = 0;
+        
+    }
+}
+display.addEventListener("change", (): void => {
+
+    if (display.on) {
+        mySeconds();
+    }
+}
+);
+mySeconds();
