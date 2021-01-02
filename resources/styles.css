@@ -25,3 +25,21 @@
 .top {
     opacity: 1;
 }
+#stepsCurvedTextWidget {
+    font-family: Tungsten-Medium;
+    font-size: 23;
+    text-anchor: middle;
+    fill: white;
+    opacity: 1;
+    x: 168;
+    y: 168;
+}
+#calsLabelWidget {
+    font-family: Tungsten-Medium;
+    font-size: 23;
+    text-anchor: middle;
+    fill: white;
+    opacity: 1;
+    x: 168;
+    y: 168;
+}
