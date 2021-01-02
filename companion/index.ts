@@ -1,4 +1,3 @@
 import { settingsStorage } from 'settings';
 
-settingsStorage.setItem('myProp', 'Hello, world');
-console.log('Hello, world')
+settingsStorage.setItem('myProp', 'I´m a demo file');
