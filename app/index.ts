@@ -1,6 +1,6 @@
 import clock from "clock";
 import document from "document";
-import { preferences, units } from "user-settings";
+import { preferences} from "user-settings";
 import * as util from "../common/utils";
 
 import * as activityData from './activity.js';
@@ -13,10 +13,12 @@ import { vibration } from "haptics";
 
 
 // IMPORTS AND PREPARATION FOR WIDGET CURVED-TEXT-------------------------------------------------------------------------------------------
-import widgetFactory from './widgets/widget-factory'
-import curvedText from './widgets/curved-text'
+
+import widgetFactory from './widgets/widget-factory';
+import curvedText from './widgets/curved-text';
 const widgets = widgetFactory([curvedText]);
 widgets.registerContainer(document);
+
 // END HEADLINES WIDGET CURVED-TEXT---------------------------------------------------------------------------------------------------------
 
 
@@ -41,8 +43,6 @@ clock.ontick = (evt): void => {
         // 12h format
         ampm = hours >= 12 ? "PM" : "AM";
         hours = hours % 12 || 12;
-        let hours0 = util.zeroPad(hours)
-      
     } else {
         // 24h format
         ampm = "";
@@ -82,8 +82,7 @@ if (HeartRateSensor && BodyPresenceSensor) {
   hrm.addEventListener("reading", (): void => {
    
     hrLabel.text = String(hrm.heartRate ?? "--");
-    
-    
+     
   });
 
   body.addEventListener("reading", (): void => {
@@ -104,10 +103,6 @@ body.start();
 let chargeLabel = document.getElementById("chargeLabel") as TextElement
 let myBattery = document.getElementById("myBattery") as ImageElement;
 let dataButton = document.getElementById("dataButton");
-let bat = document.getElementById("bat") as any ;
-let a = 0;
-
-
 
 // SECONDS ---------------------------------------------------------------------------------------
 // ACTIVITIES
@@ -134,12 +129,12 @@ function mySeconds(): void  {
 
 
 // show data on click
+let a = 0;
 dataButton.onclick = function (evt): void {
     a++;
     a = a % 2;
     vibration.start("bump");
     if (a == 1) {
-  
         azmLabel.style.opacity = 1;
         chargeLabel.style.opacity = 1;
     } else {
@@ -156,3 +151,27 @@ display.addEventListener("change", (): void => {
 }
 );
 mySeconds();
+
+
+//animate start-angle
+const animatedWidget = (document as any).getWidgetById('animatedWidget');
+animatedWidget.text = "I´m curved by the widget-factory"; 
+
+const initRotation = () => {
+const now = new Date();
+
+  //let angleSeconds = (now.getSeconds()* 6);
+  //let as = angleSeconds;
+  let angleSmoothSeconds = (now.getSeconds() * 1000 + now.getMilliseconds()) * 6 / 1000;
+  let ass = angleSmoothSeconds;
+  //@ts-ignore
+  animatedWidget.stringAngle == ass;
+  //console.log(ass) // great, you introduced the arc :)
+  //@ts-ignore
+  //textChars.style.opacity = Math.min(Math.max(cos(6*ass),0),1);// opacity inherited => chars
+  // rotation in "auto" modus is understandably rather laggy. best to keep this for "fix"?
+  //@ts-ignore
+   //myText2.style.fill = 256*256*Math.floor(255 *(360 - as)/360) + 256*Math.floor(255*as/360);
+  requestAnimationFrame(initRotation);
+}
+requestAnimationFrame(initRotation);
