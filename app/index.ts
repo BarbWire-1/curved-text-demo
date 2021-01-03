@@ -10,11 +10,16 @@ import { display } from 'display';
 
 import { battery } from "power";
 import { vibration } from "haptics";
-import { goals, today } from "user-activity";
+
+
+// IMPORTS AND PREPARATION FOR WIDGET CURVED-TEXT-------------------------------------------------------------------------------------------
 import widgetFactory from './widgets/widget-factory'
 import curvedText from './widgets/curved-text'
 const widgets = widgetFactory([curvedText]);
 widgets.registerContainer(document);
+// END HEADLINES WIDGET CURVED-TEXT---------------------------------------------------------------------------------------------------------
+
+
 
 
 let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",];
@@ -107,8 +112,8 @@ let a = 0;
 // SECONDS ---------------------------------------------------------------------------------------
 // ACTIVITIES
 let azmLabel = document.getElementById("azmLabel") as TextElement;
-const stepsCurvedTextWidget = (document as any).getWidgetById('stepsLabel');
-const calsLabelWidget = (document as any).getWidgetById("calsLabel");
+const stepsLabel = (document as any).getWidgetById('stepsLabel'); // you can use ANY idName for the <use> as usual, just use yourID = document.getWidgetById("yourID")
+const calsLabel = (document as any).getWidgetById("calsLabel");   // you can use ANY idName for the <use> as usual, just use yourID = document.getWidgetById("yourID")
 
 let refreshSeconds = setInterval(mySeconds, 1000);
 
@@ -119,8 +124,8 @@ function mySeconds(): void  {
     // Refresh stats Labels
     azmLabel.text = activityData.amz;
     
-    stepsCurvedTextWidget.text = activityData.as;
-    calsLabelWidget.text = activityData.ac;
+    stepsLabel.text = activityData.as; // steps applied and curved here
+    calsLabel.text = activityData.ac;  // calories applied and curved here
 
     myBattery.width = 26 / 100 * battery.chargeLevel;
     chargeLabel.text = String(Math.floor(battery.chargeLevel)+"%");
