@@ -17,8 +17,8 @@ import { display } from 'display';
 
 
 
-let pG,as,asl,asg,gPs,pPs,amz,amzt,amg,gPa,pPa,ac,acl,acg,gPc,pPc,ad,adg,adkm,admi,adp,adpu,gPd,pPd,ae,aeg,gPe,pPe;
-
+//let pG,as,asl,asg,gPs,pPs,amz,amzt,amg,gPa,pPa,ac,acl,acg,gPc,pPc,ad,adg,adkm,admi,adp,adpu,gPd,pPd,ae,aeg,gPe,pPe;
+let ac, as, amz;
 
 export function refresh() {
     if (appbit.permissions.granted("access_activity") && display.on) {
@@ -68,7 +68,7 @@ adpu = (units.distance == "metric" ? "km" : "mi");
 pPd = Math.min(gPd,100); // goalPercentage max 100, use for progressbars/arcs
 */
 //ELEVATION----------------------------------------------------------------------------------
-ae = Number(today.adjusted.elevationGain) ?? 0;
+//ae = Number(today.adjusted.elevationGain) ?? 0;
 /*
 aeg = Number(goals.elevationGain) ?? 1;
 gPe = Math.round(ae*100/aeg); // goalPercentage value
@@ -79,8 +79,8 @@ pPe = Math.min(gPe,100); // goalPercentage max 100, use for progressbars/arcs
 
 refresh();
 //setInterval(refreshActivity,6e4);
-export {pG,as,asl,asg,gPs,pPs,amz,amzt,amg,gPa,pPa,ac,acl,acg,gPc,pPc,ad,adg,adkm,admi,adp,adpu,gPd,pPd,ae,aeg,gPe,pPe};
-
+//export {pG,as,asl,asg,gPs,pPs,amz,amzt,amg,gPa,pPa,ac,acl,acg,gPc,pPc,ad,adg,adkm,admi,adp,adpu,gPd,pPd,ae,aeg,gPe,pPe};
+export {as,ac,amz}
 /*IN INDEX
 
 
