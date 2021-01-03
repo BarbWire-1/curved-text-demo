@@ -26,11 +26,23 @@
     opacity: 1;
 }
 
-.text {
+.char {
+    
+    text-anchor: middle;
+    
+}
+
+.myWidgetTexts {
     font-family: Colfax-Regular;
     font-size: 25;
-    text-anchor: middle;
     fill: white;
     opacity: 1;
-    
+    display: inline;
+}
+.myOtherWidgetTexts {
+    font-family: Tungsten-Medium;
+    font-size: 25;
+    fill: #29e70f;
+    opacity: 1;
+    display: inline;
 }

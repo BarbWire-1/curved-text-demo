@@ -51,23 +51,28 @@
     <g transform="translate(25,25) rotate(-65)">
         <image x="-12" y="-12" width="24" height="24"  href="steps.png" fill="white" />
     </g>
-
-    <use id="stepsLabel"  href="#curvedText"  x="150" y="150" font-family="Colfax-Regular" font-size="25" fill="white" opacity="1"> 
+    <!--_____________________________________________________________________________________________________________________________WIDGET TEXT1 FROM HERE-->
+    <g class="myOtherWidgetTexts">
+    <use id="stepsLabel"  href="#curvedText"  x="50%" y="50%"> 
       <set href="#position" attributeName="r" to="140" />
       <set href="#orientation" attributeName="start-angle" to="-45" />
       <!--set href="#orientation" attributeName="sweep-angle" to="5" /-->
     </use>
-
+    </g>
+    <!--_____________________________________________________________________________________________________________________________WIDGET TEXT1 UP TO HERE-->
     <!--CALORIES-->
     <g transform="translate(100%-25,25) rotate(45)">
         <image x="-12" y="-12" width="24" height="24"  href="cals.png" fill="white" />
     </g>
+    <!--_____________________________________________________________________________________________________________________________WIDGET TEXT2 FROM HERE-->
+    <g class="myWidgetTexts">
     <use id="calsLabel"  href="#curvedText"  x="150" y="150"> 
         <set href="#position" attributeName="r" to="139" />
         <set href="#orientation" attributeName="start-angle" to="45" />
         <!--set href="#orientation" attributeName="sweep-angle" to="5" /-->
     </use>
-
+    </g>
+    <!--_____________________________________________________________________________________________________________________________WIDGET TEXT2 UP TO HERE-->
      <use id="Label"  href="#curvedText"  x="150" y="150"> 
         <set href="#position" attributeName="r" to="139" />
         <set href="#orientation" attributeName="start-angle" to="45" />
