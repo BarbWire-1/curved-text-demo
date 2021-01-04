@@ -155,7 +155,8 @@ mySeconds();
 
 //animated curved text
 const animatedWidget = (document as any).getWidgetById("animatedWidget");
-
+let myWidgetTexts = document.getElementsByClassName("myWidgetTexts") as unknown as GroupElement;
+console.log(myWidgetTexts.text)
 animatedWidget.text = "some swinging text";
 /* doesn´t get applied. need to update widget?
 function cos(i) {
@@ -170,3 +171,24 @@ setInterval(()=>{
   //console.log("angle " + 45*cos(6*angle))
 },50)
 */
+clock.granularity = "seconds"
+
+// Opacity
+  clock.ontick = (evt) => {
+  const now = new Date();
+    let seconds = now.getSeconds();
+    console.log(seconds);
+  //flash on/off
+  //@ts-ignore
+  //curvedText2.opacity = (seconds % 2) = 0 ?  1 : 0; //cant reach curvedWidgetText2 from here
+
+  //@ts-ignore
+  //textChars.style.opacity = (seconds % 2) == 0 ?  1 : 0;
+  //console.log(textChars.style.opacity);
+  //curvedTextWidget1.startAngle = seconds*6;
+  //textChars.style.fill = "#18d6cd" ;// inherited => chars[i]
+
+  //@ts-ignore
+    animatedWidget.style.fill = 255 * 255 * Math.floor((255 - 255) * seconds / 60) + 255 * Math.floor((0 + 255) * seconds / 60) + Math.floor(255 - 255) * seconds / 60;
+    console.log(animatedWidget.style.fill)
+};

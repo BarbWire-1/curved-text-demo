@@ -65,7 +65,7 @@
         <image x="-12" y="-12" width="24" height="24"  href="cals.png" fill="white" />
     </g>
     <!--_____________________________________________________________________________________________________________________________WIDGET TEXT2 FROM HERE-->
-    <g class="myWidgetTexts">
+    <g class="myWidgetTexts" fill="inherit">
     <use id="calsLabel"  href="#curvedText"  x="150" y="150"> <!--give it an ID and set x,y to determine the center of your imaginary circle of text-->
         <set href="#position" attributeName="r" to="139" />   <!--determine the radius of that imaginary circle. text will be applied at it´s bottomline there-->
         <set href="#orientation" attributeName="start-angle" to="45"/> <!-- rotate the hole text Element here if needed/desired-->
