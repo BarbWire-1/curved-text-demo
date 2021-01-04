@@ -25,6 +25,10 @@
 .top {
     opacity: 1;
 }
+.text {
+    text-anchor: middle;
+    text-length: 1;
+}
 /* settings on classes, aplied to the outer of group of any widgetted curved text. The settings could ALSO be applied directly into the <use>s line but without being classed then*/
 .myWidgetTexts {
     font-family: Colfax-Regular;

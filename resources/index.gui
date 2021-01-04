@@ -74,12 +74,17 @@
     </use>
     </g>
     <!--_____________________________________________________________________________________________________________________________WIDGET TEXT2 UP TO HERE-->
-     <use id="animatedWidget"  href="#curvedText"  x="150" y="150" font-family="System-Regular" font-size="20" fill="orange" > 
+
+    <g transform="translate(50%,50%)">
+     <use id="animatedWidget"  href="#curvedText"  x="0" y="0" font-family="Fabrikat-Regular" font-size="30" fill="white" > 
        
-        <set href="#position" attributeName="r" to="100" />
-        <set href="#orientation" attributeName="start-angle" to="45" />
+        <set href="#position" attributeName="r" to="-107" />
+        <!--set href="#orientation" attributeName="start-angle" to="45" /-->
         <!--set href="#orientation" attributeName="sweep-angle" to="5" /-->
     </use>
+    <animateTransform attributeType="rotate" from="-30" to="30" easing="ease-in-out" begin="load" repeatCount="indefinite" end="disable"  dur="10"  repeatDur="20" final="freeze"  />
+    <animateTransform attributeType="rotate" from="30" to="-30" easing="ease-in-out"  begin="load+10" repeatCount="indefinite" end="disable"  dur="10"  repeatDur="20" final="freeze"  />
+    </g>
 
     <!--BUTTONS-->
     <rect id="dataButton" x="0" y="200" width="100%" height="100" fill="orange" opacity="0" pointer-events="visible"/>

@@ -47,7 +47,7 @@ return i;
 
 function cos(i) {
   i = Math.cos(i * Math.PI / 180);
-  return i;
+  return(i);
 }
 
 function sin(i) {

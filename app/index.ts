@@ -153,25 +153,20 @@ display.addEventListener("change", (): void => {
 mySeconds();
 
 
-//animate start-angle
-const animatedWidget = (document as any).getWidgetById('animatedWidget');
-animatedWidget.text = "I´m curved by the widget-factory"; 
+//animated curved text
+const animatedWidget = (document as any).getWidgetById("animatedWidget");
 
-const initRotation = () => {
-const now = new Date();
-
-  //let angleSeconds = (now.getSeconds()* 6);
-  //let as = angleSeconds;
-  let angleSmoothSeconds = (now.getSeconds() * 1000 + now.getMilliseconds()) * 6 / 1000;
-  let ass = angleSmoothSeconds;
-  //@ts-ignore
-  animatedWidget.stringAngle == ass;
-  //console.log(ass) // great, you introduced the arc :)
-  //@ts-ignore
-  //textChars.style.opacity = Math.min(Math.max(cos(6*ass),0),1);// opacity inherited => chars
-  // rotation in "auto" modus is understandably rather laggy. best to keep this for "fix"?
-  //@ts-ignore
-   //myText2.style.fill = 256*256*Math.floor(255 *(360 - as)/360) + 256*Math.floor(255*as/360);
-  requestAnimationFrame(initRotation);
+animatedWidget.text = "some swinging text";
+/* doesn´t get applied. need to update widget?
+function cos(i) {
+  i = Math.cos(i * Math.PI / 180);
+  return(i);
 }
-requestAnimationFrame(initRotation);
+let angle = 0
+setInterval(()=>{
+  animatedWidget.start-angle == angle;
+  //console.log("start-angle: "+animatedWidget.start-angle)
+  angle = (angle + 2) % 360;
+  //console.log("angle " + 45*cos(6*angle))
+},50)
+*/
