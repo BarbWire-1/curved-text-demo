@@ -31,17 +31,25 @@
 }
 /* settings on classes, aplied to the outer group of any widgetted curved text. The settings could ALSO be applied directly into the <use>s line but without being classed then*/
 .myWidgetTexts {
-    font-family: Colfax-Regular;
+    font-family: Fabrikat-Regular;
     font-size: 25;
     fill: white;
     opacity: 1;
     display: inline;
 }
 /* settings on classes, aplied to the outer group of any widgetted curved text. The settings could ALSO be applied directly into the <use>s line but without being classed then*/
-.myOtherWidgetTexts {
+#stepsLabel {
     font-family: Fabrikat-Regular;
     font-size: 25;
-    fill: #29e70f;
+    fill:white;
+    opacity: 1;
+    display: inline;
+}
+
+#calsLabel {
+    font-family: Fabrikat-Regular;
+    font-size: 25;
+    fill:white;
     opacity: 1;
     display: inline;
 }

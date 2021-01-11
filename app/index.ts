@@ -69,7 +69,6 @@ clock.ontick = (evt): void => {
     amPmLabel.text = ampm;
     
   
-    
 }; // END ON TICK
 
 // HEARTRATE-----------------------------------------------------------------------
@@ -119,7 +118,7 @@ function mySeconds(): void  {
     // Refresh stats Labels
     azmLabel.text = activityData.amz;
     
-    stepsLabel.text = activityData.as; // steps applied and curved here
+  stepsLabel.text = activityData.as; // steps applied and curved here
     calsLabel.text = activityData.ac;  // calories applied and curved here
 
     myBattery.width = 26 / 100 * battery.chargeLevel;
@@ -155,22 +154,10 @@ mySeconds();
 
 //animated curved text
 const animatedWidget = (document as any).getWidgetById("animatedWidget");
-let myWidgetTexts = document.getElementsByClassName("myWidgetTexts") as unknown as GroupElement;
-console.log(myWidgetTexts.text)
+//let myWidgetTexts = document.getElementsByClassName("myWidgetTexts") as unknown as GroupElement;
+//console.log(myWidgetTexts.text)
 animatedWidget.text = "some swinging text";
-/* doesn´t get applied. need to update widget?
-function cos(i) {
-  i = Math.cos(i * Math.PI / 180);
-  return(i);
-}
-let angle = 0
-setInterval(()=>{
-  animatedWidget.start-angle == angle;
-  //console.log("start-angle: "+animatedWidget.start-angle)
-  angle = (angle + 2) % 360;
-  //console.log("angle " + 45*cos(6*angle))
-},50)
-*/
+/*
 clock.granularity = "seconds"
 
 // Opacity
@@ -178,17 +165,10 @@ clock.granularity = "seconds"
   const now = new Date();
     let seconds = now.getSeconds();
     console.log(seconds);
-  //flash on/off
-  //@ts-ignore
-  //curvedText2.opacity = (seconds % 2) = 0 ?  1 : 0; //cant reach curvedWidgetText2 from here
-
-  //@ts-ignore
-  //textChars.style.opacity = (seconds % 2) == 0 ?  1 : 0;
-  //console.log(textChars.style.opacity);
-  //curvedTextWidget1.startAngle = seconds*6;
-  //textChars.style.fill = "#18d6cd" ;// inherited => chars[i]
+  
 
   //@ts-ignore
     animatedWidget.style.fill = 255 * 255 * Math.floor((255 - 255) * seconds / 60) + 255 * Math.floor((0 + 255) * seconds / 60) + Math.floor(255 - 255) * seconds / 60;
     console.log(animatedWidget.style.fill)
 };
+*/
