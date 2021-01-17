@@ -21,18 +21,29 @@ widgets.registerContainer(document);  // adds getWidgetById() to document
 
 let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",];
 
+//LABELS
+
+const stepsLabel = (document as any).getWidgetById('stepsLabel'); // you can use ANY idName for the <use> as usual, just use yourID = document.getWidgetById("yourID")
+const calsLabel = (document as any).getWidgetById("calsLabel");   // you can use ANY idName for the <use> as usual, just use yourID = document.getWidgetById("yourID")
+let azmLabel = document.getElementById("azmLabel") as TextElement;
+    
+// BATTERY ------------------------------------------------------------------------------
+let chargeLabel = document.getElementById("chargeLabel") as TextElement
+let myBattery = document.getElementById("myBattery") as ImageElement   
+
 // CLOCK--------------------------------------------------------------------------------
 // Update the clock every minute
-clock.granularity = "minutes";
+clock.granularity = "seconds";
 
 // Update the <text> element every tick with the current time
 clock.ontick = (evt): void => {
     let now = evt.date;
     let hours = now.getHours();
+    let mins = util.zeroPad(now.getMinutes());
     let ampm = " ";
     let weekday = Number(now.getDay());
     let monthday = Number(now.getDate());
-    let month = Number(now.getMonth());
+    
   
     if (preferences.clockDisplay === "12h") {
         // 12h format
@@ -42,12 +53,8 @@ clock.ontick = (evt): void => {
         // 24h format
         ampm = "";
         hours = util.zeroPad(hours);
-       
     }
     
-    let mins = util.zeroPad(now.getMinutes());
-    
-
     //TIME AND DATE
     //get Labels
     let hoursLabel0 = document.getElementById("hoursLabel0") as TextElement;
@@ -62,8 +69,17 @@ clock.ontick = (evt): void => {
     minsLabel.text = ":" + mins;
     dateLabel.text = days[weekday] + " " + ("0" + monthday).slice(-2);
     amPmLabel.text = ampm;
-    
   
+      
+    // update stats Labels
+    azmLabel.text = String(today.adjusted.activeZoneMinutes.total);
+    
+    stepsLabel.text = today.adjusted.steps; // steps applied and curved here
+    calsLabel.text = today.adjusted.calories  // calories applied and curved here
+
+    myBattery.width = 26 / 100 * battery.chargeLevel;
+    chargeLabel.text = String(Math.floor(battery.chargeLevel)+"%");
+    
 }; // END ON TICK
 
 // HEARTRATE-----------------------------------------------------------------------
@@ -93,36 +109,9 @@ if (HeartRateSensor && BodyPresenceSensor) {
 body.start();
 }
 
-// BATTERY ------------------------------------------------------------------------------
-let chargeLabel = document.getElementById("chargeLabel") as TextElement
-let myBattery = document.getElementById("myBattery") as ImageElement;
-let dataButton = document.getElementById("dataButton");
-
-// SECONDS ---------------------------------------------------------------------------------------
-// ACTIVITIES
-let azmLabel = document.getElementById("azmLabel") as TextElement;
-const stepsLabel = (document as any).getWidgetById('stepsLabel'); // you can use ANY idName for the <use> as usual, just use yourID = document.getWidgetById("yourID")
-const calsLabel = (document as any).getWidgetById("calsLabel");   // you can use ANY idName for the <use> as usual, just use yourID = document.getWidgetById("yourID")
-
-let refreshSeconds = setInterval(mySeconds, 1000);
-
-function mySeconds(): void  {
-    let d = new Date();
-    let s = d.getSeconds();
-    
-    // Refresh stats Labels
-    azmLabel.text = String(today.adjusted.activeZoneMinutes.total);
-    
-    stepsLabel.text = today.adjusted.steps; // steps applied and curved here
-    calsLabel.text = today.adjusted.calories  // calories applied and curved here
-
-    myBattery.width = 26 / 100 * battery.chargeLevel;
-    chargeLabel.text = String(Math.floor(battery.chargeLevel)+"%");
-   
-};
-
 
 // SHOW DATAT ON CLICK
+let dataButton = document.getElementById("dataButton");
 let a = 0;
 dataButton.onclick = function (evt): void {
     a++;
@@ -137,15 +126,6 @@ dataButton.onclick = function (evt): void {
         
     }
 }
-display.addEventListener("change", (): void => {
-
-    if (display.on) {
-        mySeconds();
-    }
-}
-);
-mySeconds();
-
 
 //ANIMATED CURVED TEXT
 const animatedWidget = (document as any).getWidgetById("animatedWidget");
