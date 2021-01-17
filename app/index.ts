@@ -4,8 +4,6 @@ import { preferences} from "user-settings";
 import * as util from "../common/utils";
 import { BodyPresenceSensor } from "body-presence";
 import { HeartRateSensor } from "heart-rate";
-import { display } from 'display';
-
 import { battery } from "power";
 import { vibration } from "haptics";
 import { today } from "user-activity";
