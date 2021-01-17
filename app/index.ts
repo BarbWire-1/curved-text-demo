@@ -12,12 +12,12 @@ import { battery } from "power";
 import { vibration } from "haptics";
 
 
-// IMPORTS AND PREPARATION FOR WIDGET CURVED-TEXT-------------------------------------------------------------------------------------------
+// INITIALISE WIDGET SYSTEM-------------------------------------------------------------------------------------------
 
-import widgetFactory from './widgets/widget-factory';
-import curvedText from './widgets/curved-text';
+import { widgetFactory } from './widgets/widget-factory'
+import { curvedText } from './widgets/curved-text'
 const widgets = widgetFactory([curvedText]);
-widgets.registerContainer(document);
+widgets.registerContainer(document);  // adds getWidgetById() to document
 
 // END HEADLINES WIDGET CURVED-TEXT---------------------------------------------------------------------------------------------------------
 
@@ -55,15 +55,15 @@ clock.ontick = (evt): void => {
 
     //TIME AND DATE
     //get Labels
-    let hoursLabel012 = document.getElementById("hoursLabel012") as TextElement;
-    let hoursLabel12 = document.getElementById("hoursLabel12") as TextElement;
+    let hoursLabel0 = document.getElementById("hoursLabel0") as TextElement;
+    let hoursLabel = document.getElementById("hoursLabel") as TextElement;
     let minsLabel = document.getElementById("minsLabel") as TextElement;
     let dateLabel = document.getElementById("dateLabel") as TextElement;
     let amPmLabel = document.getElementById("amPmLabel") as TextElement;
 
   
-    hoursLabel012.text = util.zeroPad(hours) + ":";
-    hoursLabel12.text = hours + ":";
+    hoursLabel0.text = util.zeroPad(hours) + ":";
+    hoursLabel.text = hours + ":";
     minsLabel.text = ":" + mins;
     dateLabel.text = days[weekday] + " " + ("0" + monthday).slice(-2);
     amPmLabel.text = ampm;

@@ -1,74 +1,96 @@
-const construct = el => {
-  const textEl = el.getElementById('text')
-  const positionEl = el.getElementById('position')
-  const orientationEl = el.getElementById('orientation')
-  const containerEl = el.getElementById('container')
+//@ts-nocheck
+export interface CurvedTextWidget extends GraphicsElement {
+  text: string;
+  startAngle: Number;
+  anchorAngle: Number;
+  redraw(): void;
+}
+
+
+// @ts-ignore
+const construct: CurvedTextWidget = (el:GraphicsElement) => {
+  // Construct an instance of a CurvedTextWidget by modifying a GraphicsElement that corresponds to a curved-text <use>.
+  // This function isn't exported, and is called from widget-factory.ts when external code calls getWidgetById().
+  // Returns the modified element.
+
+  // TODO G 0 can't call .getWidgetById on an element twice
+
+  // Because the widget is a closure, variables declared here aren't accessible to code outside the widget.
+  const textEl = el.getElementById('text') as TextElement;
+  const radiusEl = el.getElementById('radius') as CircleElement;
+  const layoutEl = el.getElementById('layout') as ArcElement;
+  const alignRotate = el.getElementById('alignRotate') as GroupElement;
 
   // INITIALISE SETTINGS FROM SVG or CSS
-  //containerEl.groupTransform.translate.x = centerX ;
-  //containerEl.groupTransform.translate.y = centerY ;
-  containerEl.x = positionEl.cx;
-  containerEl.y = positionEl.cy;
-  //alignRotate.groupTransform.translate.x =  0;
-  //alignRotate.groupTransform.translate.y =  0 ;
-  let radius = positionEl.r   //if negative, text is bottom curve
-  // TODO G 3 how to behave if radius isn't set?
-  let textAnchor: string = textEl.textAnchor; //0: middle, 1: start,  2: end at 0°
-  let letterSpacing: number = textEl.letterSpacing ?? 0;
-  let charAngle: number = orientationEl.sweepAngle ?? 0; //"fix" mode angle of each char, chars are stacked at 0° if no setting. If undefined, "auto" mode.
-  if (radius < 0) charAngle = -charAngle;   //PREVENT MIRRORING
-  let rotateText: number = orientationEl.startAngle ?? 0;  //angle to rotate anchor point for whole text
+  /* These attributes can't be specified in <use>: r, start-angle, sweep-angle, text-anchor, letter-spacing, text, text-buffer, class.
+     Therefore, we pick these up from hidden elements within the widget. */
 
-  // ADD PROPERTIES TO SVG ELEMENT OBJECT:
+  if (textEl.class) {     // append textEl's class (if any) to that of widget, so .class-name CSS rules will work
+    el.class = el.class + ' ' + textEl.class;
+    textEl.class = '';   // prevent textEl from being picked up by document.getElementsByClassName()
+  } else
+    el.class = el.class; // This shouldn't do anything, but seems to cause CSS rules to be reapplied. Without it, CSS selectors such as "#id #radius" don't work.
+
+  let radius = radiusEl.r ?? 100;  //if negative, text is bottom curve. Default to 100.
+
+  let textAnchor: string;
+  try {     // textEl.textAnchor throws an error if textAnchor not defined
+    textAnchor = textEl.textAnchor;
+  } catch(e) {
+    textAnchor = 'middle';  // default
+  }
+
+  let letterSpacing: number = textEl.letterSpacing ?? 0;
+
+  let sweepAngle: number = layoutEl.sweepAngle ?? 0; //"fix" mode angle of each char, chars are stacked at 0° if no setting. If undefined, "auto" mode // former charAngle
+  if (radius < 0) sweepAngle = -sweepAngle;   //PREVENT MIRRORING
+
+  let startAngle: number = layoutEl.startAngle ?? 0;  //angle to rotate anchor point for whole text 
+
+  // INITIALISE OTHER LOCAL VARIABLES
+
+  let anchorAngle: number = 0;  // angle by which whole string should be rotated to comply with anchor, excluding startAngle adjustment of anchor // former stringAngle
+
+  // PRIVATE FUNCTIONS
+  // Because the widget is a closure, functions declared here aren't accessible to code outside the widget.
+
+  const setStartAngle = newValue => {
+    startAngle = newValue;
+    alignRotate.groupTransform.rotate.angle = startAngle + anchorAngle;
+  }
+
+  // ADD PROPERTIES TO SVG ELEMENT OBJECT
+  // These properties will be accessible to code outside the widget, and are therefore part of the widget's API.
+  // Because they're all implemented as 'setters', they can be used like variables even though they cause functions to run.
+
   Object.defineProperty(el, 'text', {
     set: function(newValue) {
-      textEl.text = newValue
-      el.redraw()
+      textEl.text = newValue;
+      (el as CurvedTextWidget).redraw();
     }
-  })
+  });
 
-  el.redraw = (initFont:boolean) => {   // TODO G 4 does redraw() need to be public?
-    // initFont: whether to apply fontSize and fontFamily to all char[].
+  Object.defineProperty(el, 'startAngle', {   // name compatible with SVG/CSS attribute
+    set: function(newValue) {setStartAngle(newValue);}
+  });
 
-    let alignRotate = el.getElementById("alignRotate") as GroupElement;
+  Object.defineProperty(el, 'anchorAngle', {  // name descriptive of use; function is identical to startAngle
+    set: function(newValue) {setStartAngle(newValue);}
+  });
+  el.style.fill = el.style.fill ?? 'white'; // if fill not set - default fill
+  
+  // ADD A FUNCTION TO SVG ELEMENT OBJECT
+  // This function will be accessible to code outside the widget, and is therefore part of the widget's API.
 
-    /*YOUR SETTINGS---------------------------------------------------------------------------------------------------------------*/
-    //textEl.text = "widget"// enter text ar data here MiW!MiW!MiW!M
-    // centerX is now taken from positionEl.cx
-    // centerY is now taken from positionEl.cy
-
-    //let mode: number = 1; // 0: automatic, 1: rotate fix angle each // no longer used; mode is determined from charAngle (since mode can't be set in SVG)
-    //console.log("mode: "+ (mode == 0 ? "auto" : "fix"));
-    //CIRCLE
-    //let radius: number = 50;//if negative, text is bottom curve
-    //let centerX: number = 250;
-    //console.log("center: x "+centerX);
-    //let centerY: number = 250; // center of the circle
-    //console.log("center: y " + centerY)
-
-    //TEXT
-    //let rotateText: number = 0;//angle to rotate whole text from it´s beginning
-    //console.log("rotate text: "+ rotateText + "°");
-    //console.log("textAnchor: "+ textAnchor);
-    //ANGLE FOR FIX ROTATION
-    //let charAngle: number = 25;//angle each char, chars are stacked at 0° if no setting
-    //-----------------------------------------------------------------------------------------------------------------------------
-
+  (el as CurvedTextWidget).redraw = () => {
+    // This function populates and positions the widget's visible elements.
+    // redraw() doesn't really need to be public, except to cover unforeseen cases.
+    
     //VARIABLES
     //ASSIGN CHARS
     let chars = (textEl.text.split("")); // array of char set of text to curve
     let char  = el.getElementsByClassName("char") as TextElement[];// single char textElements
-    const numChars = chars.length
-
-    //APPLY FONT FAMILY AND SIZE
-    if (initFont) {   // might want to break this into initFontSize and initFontFamily if those can be changed separately at run-time
-      const fontSize = el.style.fontSize
-      //console.log(`font-size: el.style.fontSize=${el.style.fontSize} textEl.style.fontSize=${textEl.style.fontSize}`)
-      if (fontSize > 0)
-        for (let i = 0; i < char.length; i++) char[i].style.fontSize = fontSize
-      const fontFamily = textEl.style.fontFamily
-      for (let i = 0; i < char.length; i++) char[i].style.fontFamily = fontFamily
-    }
+    const numChars = chars.length;
 
     //REMOVE ANY CHARS THAT ARE NO LONGER NEEDED
     // There's no need to do this initially. It could be done only when text is changed, but that would complicate the code there.
@@ -83,21 +105,19 @@ const construct = el => {
     const degreePx = 360 / circ;
 
     //PREVENT MIRRORING
-    //charAngle = charAngle * (radius < 0 ? -1 : 1);  // moved out of redraw() so charAngle doesn't get negated repeatedly
-
     char[0].text = chars[0];
     let y = radius < 0 ? -radius : -radius + char[0].getBBox().height / 2;  //define y of text, based on radius
-    let stringAngle = rotateText;
+    anchorAngle = 0;
 
     //INITIALISE char[]
     for (let i: number = 0; i < numChars ; i++) {
       //apply text and y
       char[i].text = chars[i];// assign chars to the single textElements
       char[i].style.display = 'inherit';
-      char[i].y = y
+      char[i].y = y;
     }
 
-    if (!charAngle) {   // charAngle wasn't specified, so do mode=0 (auto)
+    if (!sweepAngle) {   // sweepAngle wasn't specified, so do mode=0 (auto)
 
       //AUTO MODE
 
@@ -105,7 +125,7 @@ const construct = el => {
       for (let i: number = 0; i < numChars ; i++) {
         //Variables for positioning chars
         let charWidth = char[i].getBBox().width;
-        cumWidth += charWidth;  //  (thank you, Peter for this neat example of simplifying and efficiency!)
+        cumWidth += charWidth;
 
         //ROTATION PER CHAR
         (char[i].parent as GroupElement).groupTransform.rotate.angle =
@@ -115,47 +135,58 @@ const construct = el => {
       //TEXT-ANCHOR MODE AUTO
       switch(textAnchor) {
         case 'middle':
-          stringAngle -= (cumWidth + ((numChars -1) * letterSpacing)) * degreePx / 2;//ok
+          anchorAngle = - (cumWidth + ((numChars -1) * letterSpacing)) * degreePx / 2;//ok
           break;
         case 'end':
-          //stringAngle = -(stringAngle -= (cumWidth + (numChars - 1 ) * letterSpacing  ) * degreePx);// NOT ok
-          stringAngle -= (cumWidth + (numChars - 1 ) * letterSpacing  ) * degreePx
+          anchorAngle = - (cumWidth + (numChars - 1 ) * letterSpacing  ) * degreePx;
           break;
       }
-    } else {    // charAngle is non-zero, so do mode=1 (fix)
+
+    } else {    // sweepAngle is non-zero, so do mode=1 (fix)
 
       //FIX MODE
 
       for (let i: number = 0; i < numChars ; i++) {
         //ROTATION PER CHAR
-        (char[i].parent as GroupElement).groupTransform.rotate.angle = i * charAngle;
+        (char[i].parent as GroupElement).groupTransform.rotate.angle = i * sweepAngle;
       } // end of char loop
 
       //TEXT-ANCHOR MODE FIX
       const firstChar = char[0].getBBox().width;
+      const lastChar = char[numChars-1].getBBox().width;
       switch(textAnchor) {
+        // Commented-out lines here implement an alternative definition of anchor in FIX mode.
         case 'middle':
-          stringAngle -= ((numChars -1)  * ((charAngle / 2) ?? 0 )) + firstChar / 2 * degreePx;//ok
+          anchorAngle -= (((numChars-1) * sweepAngle) + (lastChar - firstChar) / 2 * degreePx) / 2;
+          //anchorAngle = (1 - numChars)  * sweepAngle / 2 // start at middle 0/180 - exactly by angle only!
           break;
         case 'start':
-          stringAngle += firstChar / 2 * degreePx ;//ok
+          anchorAngle = firstChar / 2 * degreePx;
+          //anchorAngle = 0; //centers at o/180 exactly by angle only!
           break;
         case 'end':
-          const lastChar = char[numChars-1].getBBox().width;
-          stringAngle += (numChars - 1 ) * - charAngle - lastChar / 2 * degreePx;
+          anchorAngle = (numChars - 1 ) * - sweepAngle - lastChar / 2 * degreePx;
+          //anchorAngle = - (numChars - 1 ) * sweepAngle; // end at middle 0/180 - exactly by angle only!
           break;
       }
     };
 
-    alignRotate.groupTransform.rotate.angle = stringAngle;
+    alignRotate.groupTransform.rotate.angle = startAngle + anchorAngle; // rotate the whole string to the correct angle
   }
 
-  el.redraw(true)
+  // DISPLAY WIDGET BASED ON SVG/CSS ATTRIBUTES
+  // Subsequent changes to the widget are handled by API functions, and may involve calling redraw() again.
+  (el as CurvedTextWidget).redraw();
 
-  return el
+  // RETURN THE MODIFIED ELEMENT
+  // Since el now has curved-text properties and functions added to it, external code can use it to manipulate the widget.
+  return el as CurvedTextWidget;
 }
 
-export default () => {
+
+export const curvedText = () => {
+  // Returns an object that provides the name of this widget and a function that can be used to construct them.
+  // This is used internally by widget-factory.ts.
   return {
     name: 'curvedText',
     construct: construct

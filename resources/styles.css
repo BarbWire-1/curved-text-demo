@@ -25,19 +25,26 @@
 .top {
     opacity: 1;
 }
-.text {
-    text-anchor: middle;
-    text-length: 1;
-}
-/* settings on classes, aplied to the outer group of any widgetted curved text. The settings could ALSO be applied directly into the <use>s line but without being classed then*/
+
+
+/* settings on class*/
 .myWidgetTexts {
     font-family: Fabrikat-Regular;
-    font-size: 25;
+    font-size:25;
     fill: white;
     opacity: 1;
     display: inline;
 }
-/* settings on classes, aplied to the outer group of any widgetted curved text. The settings could ALSO be applied directly into the <use>s line but without being classed then*/
+
+.myWidgetTexts #radius {
+    r: 140;
+}
+ .myWidgetTexts #text {
+     letter-spacing: 2;
+ }
+
+/* settings on id would over-ride class
+
 #stepsLabel {
     font-family: Fabrikat-Regular;
     font-size: 25;
@@ -53,3 +60,4 @@
     opacity: 1;
     display: inline;
 }
+*/
