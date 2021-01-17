@@ -22,8 +22,8 @@
     <circle cx="50%" cy="3" r="3" fill="red" />
 
     <!--TIME-->
-    <text id="hoursLabel012" class="hours under" >00:</text>
-    <text id="hoursLabel12" class="hours top" >00:</text>
+    <text id="hoursLabel0" class="hours under" >00:</text>
+    <text id="hoursLabel" class="hours top" >00:</text>
     <text id="minsLabel" class="mins top" >:00</text>
     <text id="amPmLabel" x="50%" y="230" fill="white" font-family="Tungsten-Medium" font-size="20" text-anchor="middle">AM/PM</text>
 
