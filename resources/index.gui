@@ -66,7 +66,7 @@
    
     <use id="calsLabel"  href="#curvedText"  x="150" y="150" fill="white"> <!--give it an ID and set x,y to determine the center of your imaginary circle of text-->
         <set href="#text" attributeName="class" to="myWidgetTexts"/>
-        <set href="#layout" attributeName="start-angle" to="45"/> <!-- rotate the hole text Element here if needed/desired-->
+        <set href="#layout" attributeName="start-angle" to="45"/> <!-- rotate the whole text Element here if needed/desired-->
     </use>
    
     <!--_____________________________________________________________________________________________________________________________WIDGET TEXT2 UP TO HERE-->
@@ -79,7 +79,7 @@
     <animateTransform attributeType="rotate" from="-30" to="30" easing="ease-in-out" begin="load" repeatCount="indefinite" end="disable"  dur="10"  repeatDur="20" final="freeze"  />
     <animateTransform attributeType="rotate" from="30" to="-30" easing="ease-in-out"  begin="load+10" repeatCount="indefinite" end="disable"  dur="10"  repeatDur="20" final="freeze"  />
     </g>
-   
+    <!--dynamically rotated text causes artifacts! make sure to cover them, with an arc eG. Didn´t so to demonstrate-->
     <!--BUTTONS-->
     <rect id="dataButton" x="0" y="200" width="100%" height="100"  opacity="0" pointer-events="visible"/>
 </svg>
