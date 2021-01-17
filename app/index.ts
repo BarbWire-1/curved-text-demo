@@ -17,10 +17,7 @@ import { curvedText } from './widgets/curved-text'
 const widgets = widgetFactory([curvedText]);
 widgets.registerContainer(document);  // adds getWidgetById() to document
 
-// END HEADLINES WIDGET CURVED-TEXT---------------------------------------------------------------------------------------------------------
-
-
-
+// END OF INITIALISING WIDGET SYSTEM----------------------------------------------------------------------------------
 
 let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",];
 
@@ -73,7 +70,7 @@ clock.ontick = (evt): void => {
 let hrLabel = document.getElementById("hrLabel") as TextElement
 if (HeartRateSensor && BodyPresenceSensor) {
 
-  const hrm = new HeartRateSensor({frequency: 1, batch:0});// much more than 1 Hz if changed on sim. why??????
+  const hrm = new HeartRateSensor({frequency: 1, batch:0});
   const body = new BodyPresenceSensor({frequency: 1});
 
   hrm.addEventListener("reading", (): void => {
@@ -150,12 +147,12 @@ display.addEventListener("change", (): void => {
 mySeconds();
 
 
-//animated curved text
+//ANIMATED CURVED TEXT
 const animatedWidget = (document as any).getWidgetById("animatedWidget");
 // apply text here or for static text in text-buffer / index.gui/view or styles.css
 animatedWidget.text = "some swinging text";
 
-// STOP SWINGING ON CLICK
+// start/stop swinging on click top button
 let s = 0;
 let swingButton = document.getElementById("swingButton");
 let swing = document.getElementById("swing");
@@ -164,13 +161,8 @@ swingButton.onclick = function (evt): void {
     s = s % 2;
     vibration.start("bump");
   if (s == 1) {
-      //@ts-ignore
     swing.animate("enable");
-     console.log(s)
   } else {
-        //@ts-ignore
-    swing.animate("disable")
-    console.log(s)
-        
+    swing.animate("disable")     
     }
 }
