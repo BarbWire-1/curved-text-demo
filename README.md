@@ -1,6 +1,6 @@
 # curved-text-demo
 demo clockface for fitbit versa\
-using muliple independent curved-text instances
+using multiple independent curved-text instances
 
 (!under costruction!)
 
