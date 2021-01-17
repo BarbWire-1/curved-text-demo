@@ -52,10 +52,9 @@
         <image x="-12" y="-12" width="24" height="24"  href="steps.png" fill="white" />
     </g>
     <!--_____________________________________________________________________________________________________________________________WIDGET TEXT1 FROM HERE-->
-   
+    <!--settings per class in styles.css-->
     <use id="stepsLabel"  href="#curvedText"  x="50%" y="50%" fill="white"> 
         <set href="#text" attributeName="class" to="myWidgetTexts"/>
-        <!--set href="#radius" attributeName="r" to="140" /-->
         <set href="#layout" attributeName="start-angle" to="-45" />
     </use>
     <!--_____________________________________________________________________________________________________________________________WIDGET TEXT1 UP TO HERE-->
@@ -67,7 +66,6 @@
    
     <use id="calsLabel"  href="#curvedText"  x="150" y="150" fill="white"> <!--give it an ID and set x,y to determine the center of your imaginary circle of text-->
         <set href="#text" attributeName="class" to="myWidgetTexts"/>
-        <!--set href="#radius" attributeName="r" to="140" /-->   <!--determine the radius of that imaginary circle. text will be applied at it´s bottomline there-->
         <set href="#layout" attributeName="start-angle" to="45"/> <!-- rotate the hole text Element here if needed/desired-->
     </use>
    
@@ -81,7 +79,7 @@
     <animateTransform attributeType="rotate" from="-30" to="30" easing="ease-in-out" begin="load" repeatCount="indefinite" end="disable"  dur="10"  repeatDur="20" final="freeze"  />
     <animateTransform attributeType="rotate" from="30" to="-30" easing="ease-in-out"  begin="load+10" repeatCount="indefinite" end="disable"  dur="10"  repeatDur="20" final="freeze"  />
     </g>
-
+   
     <!--BUTTONS-->
-    <rect id="dataButton" x="0" y="200" width="100%" height="100" fill="orange" opacity="0" pointer-events="visible"/>
+    <rect id="dataButton" x="0" y="200" width="100%" height="100"  opacity="0" pointer-events="visible"/>
 </svg>

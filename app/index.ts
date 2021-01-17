@@ -2,15 +2,13 @@ import clock from "clock";
 import document from "document";
 import { preferences} from "user-settings";
 import * as util from "../common/utils";
-
-import * as activityData from './activity.js';
 import { BodyPresenceSensor } from "body-presence";
 import { HeartRateSensor } from "heart-rate";
 import { display } from 'display';
 
 import { battery } from "power";
 import { vibration } from "haptics";
-
+import { today } from "user-activity";
 
 // INITIALISE WIDGET SYSTEM-------------------------------------------------------------------------------------------
 
@@ -62,7 +60,7 @@ clock.ontick = (evt): void => {
     let amPmLabel = document.getElementById("amPmLabel") as TextElement;
 
   
-    hoursLabel0.text = util.zeroPad(hours) + ":";
+    hoursLabel0.text = util.zeroPad(hours) + ":"; // underlay zero
     hoursLabel.text = hours + ":";
     minsLabel.text = ":" + mins;
     dateLabel.text = days[weekday] + " " + ("0" + monthday).slice(-2);
@@ -114,12 +112,12 @@ let refreshSeconds = setInterval(mySeconds, 1000);
 function mySeconds(): void  {
     let d = new Date();
     let s = d.getSeconds();
-    activityData.refresh();
-    // Refresh stats Labels
-    azmLabel.text = activityData.amz;
     
-  stepsLabel.text = activityData.as; // steps applied and curved here
-    calsLabel.text = activityData.ac;  // calories applied and curved here
+    // Refresh stats Labels
+    azmLabel.text = String(today.adjusted.activeZoneMinutes.total);
+    
+    stepsLabel.text = today.adjusted.steps; // steps applied and curved here
+    calsLabel.text = today.adjusted.calories  // calories applied and curved here
 
     myBattery.width = 26 / 100 * battery.chargeLevel;
     chargeLabel.text = String(Math.floor(battery.chargeLevel)+"%");
@@ -154,21 +152,5 @@ mySeconds();
 
 //animated curved text
 const animatedWidget = (document as any).getWidgetById("animatedWidget");
-//let myWidgetTexts = document.getElementsByClassName("myWidgetTexts") as unknown as GroupElement;
-//console.log(myWidgetTexts.text)
+// apply text here or for static text in text-buffer / index.gui/view or styles.css
 animatedWidget.text = "some swinging text";
-/*
-clock.granularity = "seconds"
-
-// Opacity
-  clock.ontick = (evt) => {
-  const now = new Date();
-    let seconds = now.getSeconds();
-    console.log(seconds);
-  
-
-  //@ts-ignore
-    animatedWidget.style.fill = 255 * 255 * Math.floor((255 - 255) * seconds / 60) + 255 * Math.floor((0 + 255) * seconds / 60) + Math.floor(255 - 255) * seconds / 60;
-    console.log(animatedWidget.style.fill)
-};
-*/
