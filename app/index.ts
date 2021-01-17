@@ -20,17 +20,18 @@ widgets.registerContainer(document);  // adds getWidgetById() to document
 let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",];
 
 //LABELS
-
+// Widget curved-text labels
 const stepsLabel = (document as any).getWidgetById('stepsLabel'); // you can use ANY idName for the <use> as usual, just use yourID = document.getWidgetById("yourID")
 const calsLabel = (document as any).getWidgetById("calsLabel");   // you can use ANY idName for the <use> as usual, just use yourID = document.getWidgetById("yourID")
+
 let azmLabel = document.getElementById("azmLabel") as TextElement;
-    
+let chargeLabel = document.getElementById("chargeLabel") as TextElement    
 // BATTERY ------------------------------------------------------------------------------
-let chargeLabel = document.getElementById("chargeLabel") as TextElement
+
 let myBattery = document.getElementById("myBattery") as ImageElement   
 
 // CLOCK--------------------------------------------------------------------------------
-// Update the clock every minute
+// Update the clock every second
 clock.granularity = "seconds";
 
 // Update the <text> element every tick with the current time
