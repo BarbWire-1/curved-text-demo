@@ -125,7 +125,7 @@ function mySeconds(): void  {
 };
 
 
-// show data on click
+// SHOW DATAT ON CLICK
 let a = 0;
 dataButton.onclick = function (evt): void {
     a++;
@@ -154,3 +154,23 @@ mySeconds();
 const animatedWidget = (document as any).getWidgetById("animatedWidget");
 // apply text here or for static text in text-buffer / index.gui/view or styles.css
 animatedWidget.text = "some swinging text";
+
+// STOP SWINGING ON CLICK
+let s = 0;
+let swingButton = document.getElementById("swingButton");
+let swing = document.getElementById("swing");
+swingButton.onclick = function (evt): void {
+    s++;
+    s = s % 2;
+    vibration.start("bump");
+  if (s == 1) {
+      //@ts-ignore
+    swing.animate("enable");
+     console.log(s)
+  } else {
+        //@ts-ignore
+    swing.animate("disable")
+    console.log(s)
+        
+    }
+}
