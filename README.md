@@ -4,6 +4,6 @@ using multiple independent curved-text instances
 
 (!under costruction!)
 
-![](curved_new.gif)
+![](demo_new.gif)
 
 
