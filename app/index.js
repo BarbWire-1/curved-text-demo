@@ -11,8 +11,8 @@ import { today } from "user-activity";
 
 // INITIALISE WIDGET SYSTEM-------------------------------------------------------------------------------------------
 
-import { WidgetSearch, WidgetDocumentModule, WidgetElementSearch, widgetFactory } from './widgets/widget-factory'
-import { CurvedTextWidget, curvedText } from './widgets/curved-text'
+import { widgetFactory } from './widgets/widget-factory'
+import { curvedText } from './widgets/curved-text'
 const widgets = widgetFactory([curvedText]);        // create a widgetFactory that can manage curvedText widgets
 widgets.registerContainer(document);                // add getWidgetById() to document
 const widgetDocument = document;
