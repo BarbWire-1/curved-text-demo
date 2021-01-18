@@ -119,7 +119,7 @@ dataButton.onclick = function (evt) {
     a = a % 2;
     vibration.start("bump");
     if (a == 1) {
-        azmLabel.style.opacity = 1;
+        azmLabel.style.opacity = 1; //TODO G style.display not working in index.js?
         chargeLabel.style.opacity = 1;
     } else {
         azmLabel.style.opacity = 0;
