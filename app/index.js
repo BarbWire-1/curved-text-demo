@@ -23,7 +23,7 @@ let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "S
 //LABELS
 // Widget curved-text labels
 const stepsLabel = widgetDocument.getWidgetById('stepsLabel'); // you can use ANY name for variable as usual, just use yourVar = widgetDocument.getWidgetById("yourID")
-const calsLabel = widgetDocument.getWidgetById("calsLabel");   // you can use ANY name for variable as usual, just use yourVar = widgetDocument.getWidgetById("yourID")
+const calsLabel = widgetDocument.getWidgetById("calsLabel");   // you can use ANY name for variable as usual, just use yourVar = widgetDocument.getWidgetById("yourID").
 
 
 let azmLabel = document.getElementById("azmLabel");
