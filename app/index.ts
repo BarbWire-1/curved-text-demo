@@ -1,3 +1,6 @@
+// for use with typescript, remove //@ts-nocheck from
+// * app / widgets / widget - factory.ts
+// * app/widgets/curved-text/index.ts
 import clock from "clock";
 import document from "document";
 import { preferences} from "user-settings";
