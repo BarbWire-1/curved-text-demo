@@ -13,6 +13,7 @@ import { today } from "user-activity";
 
 import { widgetFactory } from './widgets/widget-factory'
 import { curvedText } from './widgets/curved-text'
+import { statSync } from "fs";
 const widgets = widgetFactory([curvedText]);        // create a widgetFactory that can manage curvedText widgets
 widgets.registerContainer(document);                // add getWidgetById() to document
 const widgetDocument = document;
@@ -119,11 +120,11 @@ dataButton.onclick = function (evt) {
     a = a % 2;
     vibration.start("bump");
     if (a == 1) {
-        azmLabel.style.opacity = 1; //TODO G style.display not working in index.js?
-        chargeLabel.style.opacity = 1;
+        azmLabel.style.display = "inline";
+        chargeLabel.style.display = "inline";
     } else {
-        azmLabel.style.opacity = 0;
-        chargeLabel.style.opacity = 0;
+        azmLabel.style.display="none";
+        chargeLabel.style.display= "none";
 
     }
 }
@@ -149,3 +150,12 @@ swingButton.onclick = function (evt) {
     swing.animate("disable")
     }
 }
+//Possible setting in .js/.ts
+//stepsLabel.style.fontFamily = "Tungsten-Medium";
+//stepsLabel.style.fontSize = 40;
+//stepsLabel.style.fill = "red";
+//stepsLabel.style.opacity = 0.5;
+//stepsLabel.style.display = "none";
+//stepsLabel.x = 100;
+//stepsLabel.y = 100;
+//stepsLabel.anchorAngle = 90; // TODO G why do startAngle and anchorAngle do the same??? doesn´t feel good

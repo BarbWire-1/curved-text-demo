@@ -121,12 +121,11 @@ dataButton.onclick = function (evt): void {
     a = a % 2;
     vibration.start("bump");
     if (a == 1) {
-        azmLabel.style.opacity = 1;
-        chargeLabel.style.opacity = 1;
+       azmLabel.style.display = "inline";
+        chargeLabel.style.display = "inline";
     } else {
-        azmLabel.style.opacity = 0;
-        chargeLabel.style.opacity = 0;
-
+        azmLabel.style.display="none";
+        chargeLabel.style.display= "none";
     }
 }
 
@@ -151,3 +150,11 @@ swingButton.onclick = function (evt): void {
     swing.animate("disable")
     }
 }
+//Possible setting in .js/.ts
+//stepsLabel.style.fontFamily = "Tungsten-Medium";
+//stepsLabel.style.fontSize = 40;
+//stepsLabel.style.fill = "red";
+//stepsLabel.style.opacity = 0.5;
+//stepsLabel.style.display = "none";
+//stepsLabel.x = 100;
+//stepsLabel.y = 100;
