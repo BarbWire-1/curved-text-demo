@@ -12,8 +12,8 @@ import { today } from "user-activity";
 
 import { widgetFactory } from './widgets/widget-factory'
 import { curvedText } from './widgets/curved-text'
-const widgets = widgetFactory([curvedText]);
-widgets.registerContainer(document);  // adds getWidgetById() to document
+const widgets = widgetFactory([curvedText]);        // create a widgetFactory that can manage curvedText widgets
+widgets.registerContainer(document);                // add getWidgetById() to document
 
 // END OF INITIALISING WIDGET SYSTEM----------------------------------------------------------------------------------
 
@@ -21,14 +21,16 @@ let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "S
 
 //LABELS
 // Widget curved-text labels
+// TODO B there are a couple of ways of avoid 'as any' below. Interested?
 const stepsLabel = (document as any).getWidgetById('stepsLabel'); // you can use ANY idName for the <use> as usual, just use yourID = document.getWidgetById("yourID")
 const calsLabel = (document as any).getWidgetById("calsLabel");   // you can use ANY idName for the <use> as usual, just use yourID = document.getWidgetById("yourID")
+// TODO B re your two comments ^, the ts name can be completely different to that of the SVG id.
 
 let azmLabel = document.getElementById("azmLabel") as TextElement;
-let chargeLabel = document.getElementById("chargeLabel") as TextElement    
+let chargeLabel = document.getElementById("chargeLabel") as TextElement
 // BATTERY ------------------------------------------------------------------------------
 
-let myBattery = document.getElementById("myBattery") as ImageElement   
+let myBattery = document.getElementById("myBattery") as ImageElement
 
 // CLOCK--------------------------------------------------------------------------------
 // Update the clock every second
@@ -42,8 +44,8 @@ clock.ontick = (evt): void => {
     let ampm = " ";
     let weekday = Number(now.getDay());
     let monthday = Number(now.getDate());
-    
-  
+
+
     if (preferences.clockDisplay === "12h") {
         // 12h format
         ampm = hours >= 12 ? "PM" : "AM";
@@ -53,7 +55,7 @@ clock.ontick = (evt): void => {
         ampm = "";
         hours = util.zeroPad(hours);
     }
-    
+
     //TIME AND DATE
     //get Labels
     let hoursLabel0 = document.getElementById("hoursLabel0") as TextElement;
@@ -62,23 +64,23 @@ clock.ontick = (evt): void => {
     let dateLabel = document.getElementById("dateLabel") as TextElement;
     let amPmLabel = document.getElementById("amPmLabel") as TextElement;
 
-  
+
     hoursLabel0.text = util.zeroPad(hours) + ":"; // underlay zero
     hoursLabel.text = hours + ":";
     minsLabel.text = ":" + mins;
     dateLabel.text = days[weekday] + " " + ("0" + monthday).slice(-2);
     amPmLabel.text = ampm;
-  
-      
+
+
     // update stats Labels
     azmLabel.text = String(today.adjusted.activeZoneMinutes.total);
-    
+
     stepsLabel.text = today.adjusted.steps; // steps applied and curved here
     calsLabel.text = today.adjusted.calories  // calories applied and curved here
 
     myBattery.width = 26 / 100 * battery.chargeLevel;
     chargeLabel.text = String(Math.floor(battery.chargeLevel)+"%");
-    
+
 }; // END ON TICK
 
 // HEARTRATE-----------------------------------------------------------------------
@@ -89,9 +91,9 @@ if (HeartRateSensor && BodyPresenceSensor) {
   const body = new BodyPresenceSensor({frequency: 1});
 
   hrm.addEventListener("reading", (): void => {
-   
+
     hrLabel.text = String(hrm.heartRate ?? "--");
-     
+
   });
 
   body.addEventListener("reading", (): void => {
@@ -103,7 +105,7 @@ if (HeartRateSensor && BodyPresenceSensor) {
         hrm.start();
         hrLabel.text = String(hrm.heartRate ?? "--");
       }
-      
+
     });
 body.start();
 }
@@ -122,7 +124,7 @@ dataButton.onclick = function (evt): void {
     } else {
         azmLabel.style.opacity = 0;
         chargeLabel.style.opacity = 0;
-        
+
     }
 }
 
@@ -136,12 +138,13 @@ let s = 0;
 let swingButton = document.getElementById("swingButton");
 let swing = document.getElementById("swing");
 swingButton.onclick = function (evt): void {
+  // TODO B you could include a comment that animatedWidget.anchorAngle could be used to achieve the same effect without the swing <g>, but would require all angles to be calculated in ts.
     s++;
     s = s % 2;
     vibration.start("bump");
   if (s == 1) {
     swing.animate("enable");
   } else {
-    swing.animate("disable")     
+    swing.animate("disable")
     }
 }
