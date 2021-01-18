@@ -1,4 +1,4 @@
-//@ts-nocheck
+
 export interface CurvedTextWidget extends GraphicsElement {
   text: string;
   startAngle: Number;

@@ -10,21 +10,20 @@ import { today } from "user-activity";
 
 // INITIALISE WIDGET SYSTEM-------------------------------------------------------------------------------------------
 
-import { widgetFactory } from './widgets/widget-factory'
-import { curvedText } from './widgets/curved-text'
+import { WidgetSearch, WidgetDocumentModule, WidgetElementSearch, widgetFactory } from './widgets/widget-factory'
+import { CurvedTextWidget, curvedText } from './widgets/curved-text'
 const widgets = widgetFactory([curvedText]);        // create a widgetFactory that can manage curvedText widgets
 widgets.registerContainer(document);                // add getWidgetById() to document
-
+const widgetDocument = document as WidgetDocumentModule;
 // END OF INITIALISING WIDGET SYSTEM----------------------------------------------------------------------------------
 
 let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",];
 
 //LABELS
 // Widget curved-text labels
-// TODO B there are a couple of ways of avoid 'as any' below. Interested?
-const stepsLabel = (document as any).getWidgetById('stepsLabel'); // you can use ANY idName for the <use> as usual, just use yourID = document.getWidgetById("yourID")
-const calsLabel = (document as any).getWidgetById("calsLabel");   // you can use ANY idName for the <use> as usual, just use yourID = document.getWidgetById("yourID")
-// TODO B re your two comments ^, the ts name can be completely different to that of the SVG id.
+const stepsLabel = widgetDocument.getWidgetById('stepsLabel'); // you can use ANY name for variable as usual, just use yourVar = widgetDocument.getWidgetById("yourID")
+const calsLabel = widgetDocument.getWidgetById("calsLabel");   // you can use ANY name for variable as usual, just use yourVar = widgetDocument.getWidgetById("yourID")
+
 
 let azmLabel = document.getElementById("azmLabel") as TextElement;
 let chargeLabel = document.getElementById("chargeLabel") as TextElement
@@ -75,8 +74,8 @@ clock.ontick = (evt): void => {
     // update stats Labels
     azmLabel.text = String(today.adjusted.activeZoneMinutes.total);
 
-    stepsLabel.text = today.adjusted.steps; // steps applied and curved here
-    calsLabel.text = today.adjusted.calories  // calories applied and curved here
+    stepsLabel.text = String(today.adjusted.steps); // steps applied and curved here
+    calsLabel.text = String(today.adjusted.calories)  // calories applied and curved here
 
     myBattery.width = 26 / 100 * battery.chargeLevel;
     chargeLabel.text = String(Math.floor(battery.chargeLevel)+"%");
@@ -129,6 +128,8 @@ dataButton.onclick = function (evt): void {
 }
 
 //ANIMATED CURVED TEXT
+// this stops/starts an SVG animation on an outer group of the <use>
+// you can also animate each in .js/.ts. available setting directly inline
 const animatedWidget = (document as any).getWidgetById("animatedWidget");
 // apply text here or for static text in text-buffer / index.gui/view or styles.css
 animatedWidget.text = "some swinging text";
@@ -138,7 +139,6 @@ let s = 0;
 let swingButton = document.getElementById("swingButton");
 let swing = document.getElementById("swing");
 swingButton.onclick = function (evt): void {
-  // TODO B you could include a comment that animatedWidget.anchorAngle could be used to achieve the same effect without the swing <g>, but would require all angles to be calculated in ts.
     s++;
     s = s % 2;
     vibration.start("bump");

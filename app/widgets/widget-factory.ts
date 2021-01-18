@@ -1,4 +1,4 @@
-//@ts-nocheck
+
 
 // Widget factory
 // This module attempts to make widget usage seem more 'normal'; ie, similar to a built-in element or component.
@@ -67,6 +67,7 @@ export const widgetFactory = (widgetArray) => {
       // elements: one or more SVG elements.
       elements.every(
         el => {
+          //@ts-ignore
           el.getWidgetById = id => getWidgetById(el, id);
           // We could also implement getWidgetsByClassName, getWidgetsByWidgetName, etc.
         }
