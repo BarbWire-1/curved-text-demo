@@ -19,7 +19,7 @@ widgets.registerContainer(document);                // add getWidgetById() to do
 const widgetDocument = document;
 // END OF INITIALISING WIDGET SYSTEM----------------------------------------------------------------------------------
 
-let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",];
+let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 //LABELS
 // Widget curved-text labels

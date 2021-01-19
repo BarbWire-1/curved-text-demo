@@ -12,7 +12,7 @@
     </g>
 
     <!--LAYOUT-->
-    
+
     <arc x="50%-120" y="50%-120" width="240" height="240" fill="white" arc-width="2" start-angle="0" sweep-angle="360" opacity = "0.5" />
     <arc x="1" y="1" width="298" height="298" fill="white" arc-width="2" start-angle="270" sweep-angle="180" opacity = "0.5" />
 
@@ -53,7 +53,7 @@
     </g>
     <!--_____________________________________________________________________________________________________________________________WIDGET TEXT1 FROM HERE-->
     <!--settings per class in styles.css-->
-    <use id="stepsLabel"  href="#curvedText"  x="50%" y="50%" fill="white"> 
+    <use id="stepsLabel"  href="#curvedText"  x="50%" y="50%" fill="white">
         <set href="#text" attributeName="class" to="myWidgetTexts"/>
         <set href="#layout" attributeName="start-angle" to="-45" />
     </use>
@@ -63,17 +63,18 @@
         <image x="-12" y="-12" width="24" height="24"  href="cals.png" fill="white" />
     </g>
     <!--_____________________________________________________________________________________________________________________________WIDGET TEXT2 FROM HERE-->
-   
+
     <use id="calsLabel"  href="#curvedText"  x="150" y="150" fill="white"> <!--give it an ID and set x,y to determine the center of your imaginary circle of text-->
         <set href="#text" attributeName="class" to="myWidgetTexts"/>
         <set href="#layout" attributeName="start-angle" to="45"/> <!-- rotate the whole text Element here if needed/desired-->
     </use>
-   
+
     <!--_____________________________________________________________________________________________________________________________WIDGET TEXT2 UP TO HERE-->
 
     <g id="swing" transform="translate(50%,50%)" pointer-events="visible">
-     <use id="animatedWidget"  href="#curvedText"  x="0" y="0" font-family="Colfax-Regular" font-size="30" fill="white" > 
+     <use id="animatedWidget"  href="#curvedText"  x="0" y="0" font-family="Colfax-Regular" font-size="30" fill="white" >
         <set href="#radius" attributeName="r" to="-107" />
+        <!--<set href="#text" attributeName="text-buffer" to="XYZ" />-->
         <set href="#text" attributeName="letter-spacing" to="3"/>
     </use>
     <animateTransform attributeType="rotate" from="0" to="30" easing="ease-out" begin="enable" repeatCount="indefinite" end="disable"  dur="5"  repeatDur="20"   />
