@@ -19,7 +19,8 @@
 		"iconFile": "resources/icon.png",
 		"wipeColor": "#8bc34a",
 		"buildTargets": [
-			"atlas"
+			"meson",
+			"mira"
 		],
 		"requestedPermissions": [
 			"run_background",
