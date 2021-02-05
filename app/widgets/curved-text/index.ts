@@ -13,6 +13,8 @@ const construct: CurvedTextWidget = (el:GraphicsElement) => {
   // This function isn't exported, and is called from widget-factory.ts when external code calls getWidgetById().
   // Returns the modified element.
 
+  // Don't can't call .getWidgetById on an element twice: once it has been converted, it can't be converted again.
+
   // Because the widget is a closure, variables declared here aren't accessible to code outside the widget.
   const textEl = el.getElementById('text') as TextElement;
   const radiusEl = el.getElementById('radius') as CircleElement;
@@ -24,6 +26,7 @@ const construct: CurvedTextWidget = (el:GraphicsElement) => {
 
   const initialiseChars = () => {
     // We do this in a function so that char[] memory can be released.
+    // This must be done before any elements are rotated, because we need getBBox() for the unrotated char.
     let char = el.getElementsByClassName("char") as TextElement[];// single char textElements
     let y = radius < 0 ? -radius : -radius + char[0].getBBox().height / 2;  //define y of text based on radius, and prevent mirroring
     char.forEach(charEl => charEl.y = y);
@@ -37,12 +40,6 @@ const construct: CurvedTextWidget = (el:GraphicsElement) => {
   // INITIALISE SETTINGS FROM SVG or CSS
   /* These attributes can't be specified in <use>: r, start-angle, sweep-angle, text-anchor, letter-spacing, text, text-buffer, class.
      Therefore, we pick these up from hidden elements within the widget. */
-
-  if (textEl.class) {     // append textEl's class (if any) to that of widget, so .class-name CSS rules will work
-    el.class = el.class + ' ' + textEl.class;
-    textEl.class = '';   // prevent textEl from being picked up by document.getElementsByClassName()
-  } else
-    el.class = el.class; // This shouldn't do anything, but seems to cause CSS rules to be reapplied. Without it, CSS selectors such as "#id #radius" don't work.
 
   let radius = radiusEl.r ?? 100;  //if negative, text is bottom curve. Default to 100.
 
@@ -60,6 +57,12 @@ const construct: CurvedTextWidget = (el:GraphicsElement) => {
 
   let startAngle: number = layoutEl.startAngle ?? 0;  //angle to rotate anchor point for whole text
 
+  // VALIDATE OTHER ATTRIBUTES
+
+  const maxLength = el.getElementsByClassName("char").length;
+  if (textEl.text.length > maxLength)
+    textEl.text = textEl.text.slice(0, maxLength);  // shouldn't be necessary but <set> seems to bypass text-length check
+
   // INITIALISE OTHER LOCAL VARIABLES
 
   let anchorAngle: number = 0;  // angle by which whole string should be rotated to comply with anchor, excluding startAngle adjustment of anchor // former stringAngle
@@ -71,6 +74,7 @@ const construct: CurvedTextWidget = (el:GraphicsElement) => {
   // ADD PROPERTIES TO SVG ELEMENT OBJECT
   // These properties will be accessible to code outside the widget, and are therefore part of the widget's API.
   // Because they're all implemented as 'setters', they can be used like variables even though they cause functions to run.
+  // 'getters' are not implemented because they would be rarely required and would consume memory.
 
   Object.defineProperty(el, 'text', {
     set: function(newValue) {
@@ -86,7 +90,6 @@ const construct: CurvedTextWidget = (el:GraphicsElement) => {
   Object.defineProperty(el, 'anchorAngle', {  // name descriptive of use; function is identical to startAngle
     set: function(newValue) {setStartAngle(newValue);}
   });
-  el.style.fill = el.style.fill ?? 'white'; // if fill not set - default fill
 
   // ADD A FUNCTION TO SVG ELEMENT OBJECT
   // This function will be accessible to code outside the widget, and is therefore part of the widget's API.
@@ -112,6 +115,7 @@ const construct: CurvedTextWidget = (el:GraphicsElement) => {
     //CIRCUMFERENCE FOR AUTO
     const circ = 2 * radius * Math.PI;
     const degreePx = 360 / circ;
+
     anchorAngle = 0;
 
     //INITIALISE char[]
@@ -121,25 +125,29 @@ const construct: CurvedTextWidget = (el:GraphicsElement) => {
       char[i].style.display = 'inherit';
     }
 
+    alignRotate.groupTransform.rotate.angle = 0;  // so getBBox() will return unrotated widths
+
     if (!sweepAngle) {   // sweepAngle wasn't specified, so do mode=0 (auto)
 
       //AUTO MODE
 
       let cumWidth: number = 0;
+      let charG: GroupElement;    // <g> that contains the char being rotated
       for (let i: number = 0; i < numChars ; i++) {
         //Variables for positioning chars
+        charG = char[i].parent as GroupElement;
+        charG.groupTransform.rotate.angle = 0;   // so getBBox() will return unrotated widths
         let charWidth = char[i].getBBox().width;
         cumWidth += charWidth;
 
         //ROTATION PER CHAR
-        (char[i].parent as GroupElement).groupTransform.rotate.angle =
-        (cumWidth  - charWidth / 2 +  (i) * letterSpacing )  * degreePx;
+        charG.groupTransform.rotate.angle = (cumWidth - charWidth / 2 + i * letterSpacing) * degreePx;
       } // end of char loop
 
       //TEXT-ANCHOR MODE AUTO
       switch(textAnchor) {
         case 'middle':
-          anchorAngle = - (cumWidth + ((numChars -1) * letterSpacing)) * degreePx / 2;//ok
+          anchorAngle = - (cumWidth + ((numChars - 1) * letterSpacing)) * degreePx / 2;//ok
           break;
         case 'end':
           anchorAngle = - (cumWidth + (numChars - 1 ) * letterSpacing  ) * degreePx;
@@ -150,14 +158,18 @@ const construct: CurvedTextWidget = (el:GraphicsElement) => {
 
       //FIX MODE
 
+      // Determine unrotated widths of outer chars:
+      (char[0].parent as GroupElement).groupTransform.rotate.angle = 0;
+      const firstChar = char[0].getBBox().width;
+      (char[numChars-1].parent as GroupElement).groupTransform.rotate.angle = 0;
+      const lastChar = char[numChars-1].getBBox().width;
+
       for (let i: number = 0; i < numChars ; i++) {
         //ROTATION PER CHAR
         (char[i].parent as GroupElement).groupTransform.rotate.angle = i * sweepAngle;
       } // end of char loop
 
       //TEXT-ANCHOR MODE FIX
-      const firstChar = char[0].getBBox().width;
-      const lastChar = char[numChars-1].getBBox().width;
       switch(textAnchor) {
         // Commented-out lines here implement an alternative definition of anchor in FIX mode.
         case 'middle':

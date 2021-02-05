@@ -9,22 +9,21 @@ import { battery } from "power";
 import { vibration } from "haptics";
 import { today } from "user-activity";
 
-// INITIALISE WIDGET SYSTEM-------------------------------------------------------------------------------------------
-
 import { widgetFactory } from './widgets/widget-factory'
 import { curvedText } from './widgets/curved-text'
-import { statSync } from "fs";
-const widgets = widgetFactory([curvedText]);        // create a widgetFactory that can manage curvedText widgets
-widgets.registerContainer(document);                // add getWidgetById() to document
-const widgetDocument = document;
+
+// INITIALISE WIDGET SYSTEM-------------------------------------------------------------------------------------------
+
+widgetFactory(curvedText);
+
 // END OF INITIALISING WIDGET SYSTEM----------------------------------------------------------------------------------
 
 let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 //LABELS
 // Widget curved-text labels
-const stepsLabel = widgetDocument.getWidgetById('stepsLabel'); // you can use ANY name for variable as usual, just use yourVar = widgetDocument.getWidgetById("yourID")
-const calsLabel = widgetDocument.getWidgetById("calsLabel");   // you can use ANY name for variable as usual, just use yourVar = widgetDocument.getWidgetById("yourID").
+const stepsLabel = document.getElementById('stepsLabel'); // you can use ANY name for variable as usual, just use yourVar = widgetDocument.getWidgetById("yourID")
+const calsLabel = document.getElementById("calsLabel");   // you can use ANY name for variable as usual, just use yourVar = widgetDocument.getWidgetById("yourID").
 
 
 let azmLabel = document.getElementById("azmLabel");
@@ -132,7 +131,7 @@ dataButton.onclick = function (evt) {
 //ANIMATED CURVED TEXT
 // this stops/starts an SVG animation on an outer group of the <use>
 // you can also animate each in .js/.ts. available setting directly inline
-const animatedWidget = document.getWidgetById("animatedWidget");
+const animatedWidget = document.getElementById("animatedWidget");
 // apply text here or for static text in text-buffer / index.gui/view or styles.css
 animatedWidget.text = "some swinging text";
 

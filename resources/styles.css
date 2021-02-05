@@ -29,7 +29,7 @@
 
 /* settings on class*/
 .myWidgetTexts {
-    font-family: Fabrikat-Regular;
+    font-family: Fabrikat-Bold;
     font-size:25;
     fill: white;
     opacity: 1;
@@ -40,7 +40,7 @@
     r: 140;
 }
  .myWidgetTexts #text {
-     letter-spacing: 5;
+     letter-spacing: 3;
  }
 
  

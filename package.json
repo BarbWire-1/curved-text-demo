@@ -8,9 +8,9 @@
 		"debug": "fitbit"
 	},
 	"devDependencies": {
-		"@fitbit/sdk": "~5.0",
+		"@fitbit/sdk": "^4.2.1",
 		"@fitbit/sdk-cli": "^1.7.3",
-		"fitbit-sdk-types": "^5.0.0"
+		"fitbit-sdk-types": "^6.0.3"
 	},
 	"fitbit": {
 		"appUUID": "824655d8-f15f-458d-ab40-484f112524b7",

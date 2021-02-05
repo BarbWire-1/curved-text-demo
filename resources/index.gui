@@ -53,8 +53,8 @@
     </g>
     <!--_____________________________________________________________________________________________________________________________WIDGET TEXT1 FROM HERE-->
     <!--settings per class in styles.css-->
-    <use id="stepsLabel"  href="#curvedText"  x="50%" y="50%" fill="white">
-        <set href="#text" attributeName="class" to="myWidgetTexts"/>
+    <use id="stepsLabel"  class ="myWidgetTexts" href="#curvedText"  x="50%" y="50%" fill="white">
+       
         <set href="#layout" attributeName="start-angle" to="-45" />
     </use>
     <!--_____________________________________________________________________________________________________________________________WIDGET TEXT1 UP TO HERE-->
@@ -64,8 +64,8 @@
     </g>
     <!--_____________________________________________________________________________________________________________________________WIDGET TEXT2 FROM HERE-->
 
-    <use id="calsLabel"  href="#curvedText"  x="150" y="150" fill="white"> <!--give it an ID and set x,y to determine the center of your imaginary circle of text-->
-        <set href="#text" attributeName="class" to="myWidgetTexts"/>
+    <use id="calsLabel"  class="myWidgetTexts" href="#curvedText"  x="150" y="150" fill="white"> <!--give it an ID and set x,y to determine the center of your imaginary circle of text-->
+     
         <set href="#layout" attributeName="start-angle" to="45"/> <!-- rotate the whole text Element here if needed/desired-->
     </use>
 
