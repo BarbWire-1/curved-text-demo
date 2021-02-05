@@ -157,4 +157,4 @@ swingButton.onclick = function (evt) {
 //stepsLabel.style.display = "none";
 //stepsLabel.x = 100;
 //stepsLabel.y = 100;
-//stepsLabel.anchorAngle = 90; // TODO G why do startAngle and anchorAngle do the same??? doesn´t feel good
+//stepsLabel.anchorAngle = 90;

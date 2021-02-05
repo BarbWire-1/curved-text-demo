@@ -1,6 +1,7 @@
 // for use with typescript, remove //@ts-nocheck from
 // * app / widgets / widget - factory.ts
 // * app/widgets/curved-text/index.ts
+//@ts.nocheck
 import clock from "clock";
 import document from "document";
 import { preferences} from "user-settings";
@@ -11,35 +12,42 @@ import { battery } from "power";
 import { vibration } from "haptics";
 import { today } from "user-activity";
 
+import { widgetFactory } from './widgets/widget-factory'
+import { CurvedTextWidget,curvedText } from './widgets/curved-text'
+
 // INITIALISE WIDGET SYSTEM-------------------------------------------------------------------------------------------
 
-import { WidgetSearch, WidgetDocumentModule, WidgetElementSearch, widgetFactory } from './widgets/widget-factory'
-import { CurvedTextWidget, curvedText } from './widgets/curved-text'
-const widgets = widgetFactory([curvedText]);        // create a widgetFactory that can manage curvedText widgets
-widgets.registerContainer(document);                // add getWidgetById() to document
-const widgetDocument = document as WidgetDocumentModule;
+widgetFactory(curvedText);
+
 // END OF INITIALISING WIDGET SYSTEM----------------------------------------------------------------------------------
 
-let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",];
+let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 //LABELS
 // Widget curved-text labels
-const stepsLabel = widgetDocument.getWidgetById('stepsLabel'); // you can use ANY name for variable as usual, just use yourVar = widgetDocument.getWidgetById("yourID")
-const calsLabel = widgetDocument.getWidgetById("calsLabel");   // you can use ANY name for variable as usual, just use yourVar = widgetDocument.getWidgetById("yourID")
+const stepsLabel = document.getElementById('stepsLabel') as CurvedTextWidget; // you can use ANY name for variable as usual, just use yourVar = widgetDocument.getWidgetById("yourID")
+const calsLabel = document.getElementById("calsLabel") as CurvedTextWidget;   // you can use ANY name for variable as usual, just use yourVar = widgetDocument.getWidgetById("yourID").
 
 
 let azmLabel = document.getElementById("azmLabel") as TextElement;
-let chargeLabel = document.getElementById("chargeLabel") as TextElement
+let chargeLabel = document.getElementById("chargeLabel") as TextElement;
+
+//get Labels
+    let hoursLabel0 = document.getElementById("hoursLabel0");
+    let hoursLabel = document.getElementById("hoursLabel");
+    let minsLabel = document.getElementById("minsLabel");
+    let dateLabel = document.getElementById("dateLabel");
+    let amPmLabel = document.getElementById("amPmLabel");
 // BATTERY ------------------------------------------------------------------------------
 
-let myBattery = document.getElementById("myBattery") as ImageElement
+let myBattery = document.getElementById("myBattery");
 
 // CLOCK--------------------------------------------------------------------------------
 // Update the clock every second
 clock.granularity = "seconds";
 
 // Update the <text> element every tick with the current time
-clock.ontick = (evt): void => {
+clock.ontick = (evt) => {
     let now = evt.date;
     let hours = now.getHours();
     let mins = util.zeroPad(now.getMinutes());
@@ -59,12 +67,7 @@ clock.ontick = (evt): void => {
     }
 
     //TIME AND DATE
-    //get Labels
-    let hoursLabel0 = document.getElementById("hoursLabel0") as TextElement;
-    let hoursLabel = document.getElementById("hoursLabel") as TextElement;
-    let minsLabel = document.getElementById("minsLabel") as TextElement;
-    let dateLabel = document.getElementById("dateLabel") as TextElement;
-    let amPmLabel = document.getElementById("amPmLabel") as TextElement;
+    
 
 
     hoursLabel0.text = util.zeroPad(hours) + ":"; // underlay zero
@@ -78,27 +81,27 @@ clock.ontick = (evt): void => {
     azmLabel.text = String(today.adjusted.activeZoneMinutes.total);
 
     stepsLabel.text = String(today.adjusted.steps); // steps applied and curved here
-    calsLabel.text = String(today.adjusted.calories)  // calories applied and curved here
+    calsLabel.text = String(today.adjusted.calories);  // calories applied and curved here
 
-    myBattery.width = 26 / 100 * battery.chargeLevel;
+    (myBattery as GraphicsElement).width = 26 / 100 * battery.chargeLevel;
     chargeLabel.text = String(Math.floor(battery.chargeLevel)+"%");
 
 }; // END ON TICK
 
 // HEARTRATE-----------------------------------------------------------------------
-let hrLabel = document.getElementById("hrLabel") as TextElement
+let hrLabel = document.getElementById("hrLabel");
 if (HeartRateSensor && BodyPresenceSensor) {
 
   const hrm = new HeartRateSensor({frequency: 1, batch:0});
   const body = new BodyPresenceSensor({frequency: 1});
 
-  hrm.addEventListener("reading", (): void => {
+  hrm.addEventListener("reading", () => {
 
     hrLabel.text = String(hrm.heartRate ?? "--");
 
   });
 
-  body.addEventListener("reading", (): void => {
+  body.addEventListener("reading", () => {
    // Automatically stop the sensor when the device is off to conserve battery
       if (!body.present) {
         hrm.stop();
@@ -116,23 +119,24 @@ body.start();
 // SHOW DATAT ON CLICK
 let dataButton = document.getElementById("dataButton");
 let a = 0;
-dataButton.onclick = function (evt): void {
+dataButton.onclick = function (evt) {
     a++;
     a = a % 2;
     vibration.start("bump");
     if (a == 1) {
-       azmLabel.style.display = "inline";
+        azmLabel.style.display = "inline";
         chargeLabel.style.display = "inline";
     } else {
         azmLabel.style.display="none";
         chargeLabel.style.display= "none";
+
     }
 }
 
 //ANIMATED CURVED TEXT
 // this stops/starts an SVG animation on an outer group of the <use>
 // you can also animate each in .js/.ts. available setting directly inline
-const animatedWidget = (document as any).getWidgetById("animatedWidget");
+const animatedWidget = document.getElementById("animatedWidget");
 // apply text here or for static text in text-buffer / index.gui/view or styles.css
 animatedWidget.text = "some swinging text";
 
@@ -140,7 +144,7 @@ animatedWidget.text = "some swinging text";
 let s = 0;
 let swingButton = document.getElementById("swingButton");
 let swing = document.getElementById("swing");
-swingButton.onclick = function (evt): void {
+swingButton.onclick = function (evt) {
     s++;
     s = s % 2;
     vibration.start("bump");
@@ -158,3 +162,4 @@ swingButton.onclick = function (evt): void {
 //stepsLabel.style.display = "none";
 //stepsLabel.x = 100;
 //stepsLabel.y = 100;
+//stepsLabel.anchorAngle = 90; 
