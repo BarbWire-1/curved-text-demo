@@ -1,7 +1,7 @@
 // for use with typescript, remove //@ts-nocheck from
 // * app / widgets / widget - factory.ts
 // * app/widgets/curved-text/index.ts
-//@ts.nocheck
+
 import clock from "clock";
 import document from "document";
 import { preferences} from "user-settings";
@@ -28,29 +28,31 @@ let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "S
 const stepsLabel = document.getElementById('stepsLabel') as CurvedTextWidget; // you can use ANY name for variable as usual, just use yourVar = widgetDocument.getWidgetById("yourID")
 const calsLabel = document.getElementById("calsLabel") as CurvedTextWidget;   // you can use ANY name for variable as usual, just use yourVar = widgetDocument.getWidgetById("yourID").
 
-
+// other stats textLabels
 let azmLabel = document.getElementById("azmLabel") as TextElement;
 let chargeLabel = document.getElementById("chargeLabel") as TextElement;
 
-//get Labels
-    let hoursLabel0 = document.getElementById("hoursLabel0");
-    let hoursLabel = document.getElementById("hoursLabel");
-    let minsLabel = document.getElementById("minsLabel");
-    let dateLabel = document.getElementById("dateLabel");
-    let amPmLabel = document.getElementById("amPmLabel");
+//time Labels   
+let hoursLabel0 = document.getElementById("hoursLabel0");
+let hoursLabel = document.getElementById("hoursLabel");
+let minsLabel = document.getElementById("minsLabel");
+let dateLabel = document.getElementById("dateLabel");
+let amPmLabel = document.getElementById("amPmLabel");
+
 // BATTERY ------------------------------------------------------------------------------
 
-let myBattery = document.getElementById("myBattery");
+let myBattery = document.getElementById("myBattery") as ImageElement;
 
 // CLOCK--------------------------------------------------------------------------------
-// Update the clock every second
-clock.granularity = "seconds";
+// Update the clock every minute
+clock.granularity = "minutes";
 
-// Update the <text> element every tick with the current time
+
 clock.ontick = (evt) => {
     let now = evt.date;
     let hours = now.getHours();
     let mins = util.zeroPad(now.getMinutes());
+    //let secs = (now.getSeconds());
     let ampm = " ";
     let weekday = Number(now.getDay());
     let monthday = Number(now.getDate());
@@ -67,24 +69,11 @@ clock.ontick = (evt) => {
     }
 
     //TIME AND DATE
-    
-
-
-    hoursLabel0.text = util.zeroPad(hours) + ":"; // underlay zero
+    hoursLabel0.text = util.zeroPad(hours) + ":"; // underlay zero for hours < 12 in 12h format
     hoursLabel.text = hours + ":";
     minsLabel.text = ":" + mins;
     dateLabel.text = days[weekday] + " " + ("0" + monthday).slice(-2);
     amPmLabel.text = ampm;
-
-
-    // update stats Labels
-    azmLabel.text = String(today.adjusted.activeZoneMinutes.total);
-
-    stepsLabel.text = String(today.adjusted.steps); // steps applied and curved here
-    calsLabel.text = String(today.adjusted.calories);  // calories applied and curved here
-
-    (myBattery as GraphicsElement).width = 26 / 100 * battery.chargeLevel;
-    chargeLabel.text = String(Math.floor(battery.chargeLevel)+"%");
 
 }; // END ON TICK
 
@@ -106,7 +95,8 @@ if (HeartRateSensor && BodyPresenceSensor) {
       if (!body.present) {
         hrm.stop();
         hrLabel.text = "--";
-          }else{
+         // update stats Labels
+      }else{
         hrm.start();
         hrLabel.text = String(hrm.heartRate ?? "--");
       }
@@ -114,6 +104,17 @@ if (HeartRateSensor && BodyPresenceSensor) {
     });
 body.start();
 }
+
+ // UPDATE STATS LABELS EVERY SEC
+setInterval(function updateStats() {
+  azmLabel.text = String(today.adjusted.activeZoneMinutes.total);
+
+  stepsLabel.text = String(today.adjusted.steps); // steps applied and curved here
+  calsLabel.text = String(today.adjusted.calories)  // calories applied and curved here
+  
+  myBattery.width = 26 / 100 * battery.chargeLevel;
+  chargeLabel.text = String(Math.floor(battery.chargeLevel) + "%");
+}, 1000);
 
 
 // SHOW DATAT ON CLICK
@@ -134,25 +135,45 @@ dataButton.onclick = function (evt) {
 }
 
 //ANIMATED CURVED TEXT
-// this stops/starts an SVG animation on an outer group of the <use>
-// you can also animate each in .js/.ts. available setting directly inline
-const animatedWidget = document.getElementById("animatedWidget");
+// animation on element.startAngle time-related;
+// svg rotations on an outer <g> may cause problems with the layout of the single chars
+// slow smooth animations may "shiver" a bit cause of BBox in the textrefresh rate plus fonthinting effect. 
 // apply text here or for static text in text-buffer / index.gui/view or styles.css
-animatedWidget.text = "some swinging text";
+//animatedWidget.text = "some swinging text";
+// the animation could be done in various different ways
+
+const animatedWidget = document.getElementById("animatedWidget") as CurvedTextWidget;
+//calculate rotation-angle
+const cos = (n) => {
+n = Math.cos(n*Math.PI/180);
+return n;
+}
+
+var animation;
+const rotation = () => {
+const now = new Date();
+  let angle = (now.getSeconds() * 1000 + now.getMilliseconds()) * 6 / 1000;
+  
+  animatedWidget.startAngle = 30 * cos(8 * angle);
+  animation = requestAnimationFrame(rotation);
+}
+;
 
 // start/stop swinging on click top button
 let s = 0;
-let swingButton = document.getElementById("swingButton");
-let swing = document.getElementById("swing");
-swingButton.onclick = function (evt) {
-    s++;
-    s = s % 2;
+let animateButton = document.getElementById("animateButton");
+
+animateButton.onclick = function (evt) {
+  s++;
+  s = s % 2;
     vibration.start("bump");
   if (s == 1) {
-    swing.animate("enable");
-  } else {
-    swing.animate("disable")
-    }
+    rotation();
+    } else {
+    cancelAnimationFrame(animation);
+    animatedWidget.startAngle = 0;
+    
+  }
 }
 //Possible setting in .js/.ts
 //stepsLabel.style.fontFamily = "Tungsten-Medium";
@@ -162,4 +183,4 @@ swingButton.onclick = function (evt) {
 //stepsLabel.style.display = "none";
 //stepsLabel.x = 100;
 //stepsLabel.y = 100;
-//stepsLabel.anchorAngle = 90; 
+//stepsLabel.anchorAngle = 90;

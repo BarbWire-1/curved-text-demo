@@ -132,26 +132,27 @@ dataButton.onclick = function (evt) {
 }
 
 //ANIMATED CURVED TEXT
-// animation on element.startAngle related to seconds;
+// animation on element.startAngle time-related;
 // svg rotations on an outer <g> may cause problems with the layout of the single chars
 // slow smooth animations may "shiver" a bit cause of BBox in the textrefresh rate plus fonthinting effect. 
-const animatedWidget = document.getElementById("animatedWidget");
 // apply text here or for static text in text-buffer / index.gui/view or styles.css
 //animatedWidget.text = "some swinging text";
+// the animation could be done in various different ways
 
+const animatedWidget = document.getElementById("animatedWidget");
 //calculate rotation-angle
 const cos = (n) => {
 n = Math.cos(n*Math.PI/180);
-  return n;
+return n;
 }
 
 var animation;
-const initRotation = () => {
+const rotation = () => {
 const now = new Date();
   let angle = (now.getSeconds() * 1000 + now.getMilliseconds()) * 6 / 1000;
   
-  animatedWidget.startAngle = 30 * cos(12 * angle);
-  animation = requestAnimationFrame(initRotation);
+  animatedWidget.startAngle = 30 * cos(8 * angle);
+  animation = requestAnimationFrame(rotation);
 }
 ;
 
@@ -164,7 +165,7 @@ animateButton.onclick = function (evt) {
   s = s % 2;
     vibration.start("bump");
   if (s == 1) {
-    initRotation();
+    rotation();
     } else {
     cancelAnimationFrame(animation);
     animatedWidget.startAngle = 0;
