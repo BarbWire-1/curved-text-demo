@@ -25,7 +25,7 @@ let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "S
 const stepsLabel = document.getElementById('stepsLabel'); // you can use ANY name for variable as usual, just use yourVar = widgetDocument.getWidgetById("yourID")
 const calsLabel = document.getElementById("calsLabel");   // you can use ANY name for variable as usual, just use yourVar = widgetDocument.getWidgetById("yourID").
 
-// stats textLabels
+// other stats textLabels
 let azmLabel = document.getElementById("azmLabel");
 let chargeLabel = document.getElementById("chargeLabel");
 
@@ -41,10 +41,10 @@ let amPmLabel = document.getElementById("amPmLabel");
 let myBattery = document.getElementById("myBattery");
 
 // CLOCK--------------------------------------------------------------------------------
-// Update the clock every second
+// Update the clock every minute
 clock.granularity = "minutes";
 
-// Update the <text> element every tick with the current time
+
 clock.ontick = (evt) => {
     let now = evt.date;
     let hours = now.getHours();
@@ -66,7 +66,7 @@ clock.ontick = (evt) => {
     }
 
     //TIME AND DATE
-    hoursLabel0.text = util.zeroPad(hours) + ":"; // underlay zero
+    hoursLabel0.text = util.zeroPad(hours) + ":"; // underlay zero for hours < 12 in 12h format
     hoursLabel.text = hours + ":";
     minsLabel.text = ":" + mins;
     dateLabel.text = days[weekday] + " " + ("0" + monthday).slice(-2);
@@ -108,7 +108,7 @@ setInterval(function updateStats() {
 
   stepsLabel.text = String(today.adjusted.steps); // steps applied and curved here
   calsLabel.text = String(today.adjusted.calories)  // calories applied and curved here
-  console.log(today.adjusted.calories);
+  
   myBattery.width = 26 / 100 * battery.chargeLevel;
   chargeLabel.text = String(Math.floor(battery.chargeLevel) + "%");
 }, 1000);
@@ -132,7 +132,7 @@ dataButton.onclick = function (evt) {
 }
 
 //ANIMATED CURVED TEXT
-// this stops/starts the animation of .startAngle
+// animation on element.startAngle related to seconds;
 // svg rotations on an outer <g> may cause problems with the layout of the single chars
 // slow smooth animations may "shiver" a bit cause of BBox in the textrefresh rate plus fonthinting effect. 
 const animatedWidget = document.getElementById("animatedWidget");
@@ -150,7 +150,7 @@ const initRotation = () => {
 const now = new Date();
   let angle = (now.getSeconds() * 1000 + now.getMilliseconds()) * 6 / 1000;
   
-  animatedWidget.startAngle = 30 * cos(12 * angle); // great, you introduced the arc :)
+  animatedWidget.startAngle = 30 * cos(12 * angle);
   animation = requestAnimationFrame(initRotation);
 }
 ;
