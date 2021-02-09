@@ -14,7 +14,7 @@
 	},
 	"fitbit": {
 		"appUUID": "824655d8-f15f-458d-ab40-484f112524b7",
-		"appType": "app",
+		"appType": "clockface",
 		"appDisplayName": "curved-dext-demo",
 		"iconFile": "resources/icon.png",
 		"wipeColor": "#8bc34a",
