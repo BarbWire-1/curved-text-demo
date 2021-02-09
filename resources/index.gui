@@ -71,20 +71,23 @@
 
     <!--_____________________________________________________________________________________________________________________________WIDGET TEXT2 UP TO HERE-->
 
-    <g id="swing" transform="translate(50%,50%)" pointer-events="visible">
-     <use id="animatedWidget"  href="#curvedText"  x="0" y="0" font-family="Colfax-Regular" font-size="30" fill="white" >
+    <!--g id="swing" transform="translate(50%,50%)" pointer-events="visible"-->
+     <use id="animatedWidget"  href="#curvedText"  x="50%" y="50%" font-family="Colfax-Regular" font-size="30" fill="white" >
         <set href="#radius" attributeName="r" to="-107" />
-        <!--<set href="#text" attributeName="text-buffer" to="XYZ" />-->
-        <set href="#text" attributeName="letter-spacing" to="3"/>
+        <set href="#text" attributeName="text-buffer" to="some swinging text" />
+        <set href="#text" attributeName="letter-spacing" to="1"/>
     </use>
-    <animateTransform attributeType="rotate" from="0" to="30" easing="ease-out" begin="enable" repeatCount="indefinite" end="disable"  dur="5"  repeatDur="20"   />
-    <animateTransform attributeType="rotate" from="30" to="0" easing="ease-in" begin="enable+5" repeatCount="indefinite" end="disable"  dur="5"  repeatDur="20"  />
-    <animateTransform attributeType="rotate" from="0" to="-30" easing="ease-out"  begin="enable+10" repeatCount="indefinite" end="disable"  dur="5"  repeatDur="20" />
-    <animateTransform attributeType="rotate" from="-30" to="0" easing="ease-in"  begin="enable+15" repeatCount="indefinite" end="disable"  dur="5"  repeatDur="20" final="restore" />
-    </g>
+    <!--animateTransform attributeType="rotate" from="0" to="30" easing="ease-out" begin="enable" repeatCount="indefinite" end="disable"  dur="5"  repeatDur="20"   /-->
+    <!--animateTransform attributeType="rotate" from="30" to="0" easing="ease-in" begin="enable+5" repeatCount="indefinite" end="disable"  dur="5"  repeatDur="20"  /-->
+    <!--animateTransform attributeType="rotate" from="0" to="-30" easing="ease-out"  begin="enable+10" repeatCount="indefinite" end="disable"  dur="5"  repeatDur="20" /-->
+    <!--animateTransform attributeType="rotate" from="-30" to="0" easing="ease-in"  begin="enable+15" repeatCount="indefinite" end="disable"  dur="5"  repeatDur="20" final="restore" /-->
+    <!--/g-->
     <!--dynamically rotated text causes artifacts! make sure to cover them, with an arc eG. Didn´t so to demonstrate-->
     <!--slowly animated text "shivers" and "dances" but a initial woosh, should be fine, as well as rotate per second, eG-->
+
+    <!--rotation on an outer <g> for dynamic textLabels can cause "squeezing" of chars due to BBox limitations. working perfect in sim. So highly recommanded to test on device!!!-->
     <!--BUTTONS-->
+
     <rect id="dataButton" x="0" y="200" width="100%" height="100"  opacity="0" pointer-events="visible"/>
-    <rect id="swingButton" x="0" y="0" width="100%" height="150"  opacity="0" pointer-events="visible"/>
+    <rect id="animateButton" x="0" y="0" width="100%" height="150"  opacity="0" pointer-events="visible"/>
 </svg>

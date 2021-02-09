@@ -25,22 +25,31 @@ let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "S
 const stepsLabel = document.getElementById('stepsLabel'); // you can use ANY name for variable as usual, just use yourVar = widgetDocument.getWidgetById("yourID")
 const calsLabel = document.getElementById("calsLabel");   // you can use ANY name for variable as usual, just use yourVar = widgetDocument.getWidgetById("yourID").
 
-
+// stats textLabels
 let azmLabel = document.getElementById("azmLabel");
 let chargeLabel = document.getElementById("chargeLabel");
+
+//time Labels   
+let hoursLabel0 = document.getElementById("hoursLabel0");
+let hoursLabel = document.getElementById("hoursLabel");
+let minsLabel = document.getElementById("minsLabel");
+let dateLabel = document.getElementById("dateLabel");
+let amPmLabel = document.getElementById("amPmLabel");
+
 // BATTERY ------------------------------------------------------------------------------
 
 let myBattery = document.getElementById("myBattery");
 
 // CLOCK--------------------------------------------------------------------------------
 // Update the clock every second
-clock.granularity = "seconds";
+clock.granularity = "minutes";
 
 // Update the <text> element every tick with the current time
 clock.ontick = (evt) => {
     let now = evt.date;
     let hours = now.getHours();
     let mins = util.zeroPad(now.getMinutes());
+    //let secs = (now.getSeconds());
     let ampm = " ";
     let weekday = Number(now.getDay());
     let monthday = Number(now.getDate());
@@ -57,29 +66,11 @@ clock.ontick = (evt) => {
     }
 
     //TIME AND DATE
-    //get Labels
-    let hoursLabel0 = document.getElementById("hoursLabel0");
-    let hoursLabel = document.getElementById("hoursLabel");
-    let minsLabel = document.getElementById("minsLabel");
-    let dateLabel = document.getElementById("dateLabel");
-    let amPmLabel = document.getElementById("amPmLabel");
-
-
     hoursLabel0.text = util.zeroPad(hours) + ":"; // underlay zero
     hoursLabel.text = hours + ":";
     minsLabel.text = ":" + mins;
     dateLabel.text = days[weekday] + " " + ("0" + monthday).slice(-2);
     amPmLabel.text = ampm;
-
-
-    // update stats Labels
-    azmLabel.text = String(today.adjusted.activeZoneMinutes.total);
-
-    stepsLabel.text = String(today.adjusted.steps); // steps applied and curved here
-    calsLabel.text = String(today.adjusted.calories)  // calories applied and curved here
-
-    myBattery.width = 26 / 100 * battery.chargeLevel;
-    chargeLabel.text = String(Math.floor(battery.chargeLevel)+"%");
 
 }; // END ON TICK
 
@@ -101,7 +92,8 @@ if (HeartRateSensor && BodyPresenceSensor) {
       if (!body.present) {
         hrm.stop();
         hrLabel.text = "--";
-          }else{
+         // update stats Labels
+      }else{
         hrm.start();
         hrLabel.text = String(hrm.heartRate ?? "--");
       }
@@ -109,6 +101,17 @@ if (HeartRateSensor && BodyPresenceSensor) {
     });
 body.start();
 }
+
+ // UPDATE STATS LABELS EVERY SEC
+setInterval(function updateStats() {
+  azmLabel.text = String(today.adjusted.activeZoneMinutes.total);
+
+  stepsLabel.text = String(today.adjusted.steps); // steps applied and curved here
+  calsLabel.text = String(today.adjusted.calories)  // calories applied and curved here
+  console.log(today.adjusted.calories);
+  myBattery.width = 26 / 100 * battery.chargeLevel;
+  chargeLabel.text = String(Math.floor(battery.chargeLevel) + "%");
+}, 1000);
 
 
 // SHOW DATAT ON CLICK
@@ -129,25 +132,44 @@ dataButton.onclick = function (evt) {
 }
 
 //ANIMATED CURVED TEXT
-// this stops/starts an SVG animation on an outer group of the <use>
-// you can also animate each in .js/.ts. available setting directly inline
+// this stops/starts the animation of .startAngle
+// svg rotations on an outer <g> may cause problems with the layout of the single chars
+// slow smooth animations may "shiver" a bit cause of BBox in the textrefresh rate plus fonthinting effect. 
 const animatedWidget = document.getElementById("animatedWidget");
 // apply text here or for static text in text-buffer / index.gui/view or styles.css
-animatedWidget.text = "some swinging text";
+//animatedWidget.text = "some swinging text";
+
+//calculate rotation-angle
+const cos = (n) => {
+n = Math.cos(n*Math.PI/180);
+  return n;
+}
+
+var animation;
+const initRotation = () => {
+const now = new Date();
+  let angle = (now.getSeconds() * 1000 + now.getMilliseconds()) * 6 / 1000;
+  
+  animatedWidget.startAngle = 30 * cos(12 * angle); // great, you introduced the arc :)
+  animation = requestAnimationFrame(initRotation);
+}
+;
 
 // start/stop swinging on click top button
 let s = 0;
-let swingButton = document.getElementById("swingButton");
-let swing = document.getElementById("swing");
-swingButton.onclick = function (evt) {
-    s++;
-    s = s % 2;
+let animateButton = document.getElementById("animateButton");
+
+animateButton.onclick = function (evt) {
+  s++;
+  s = s % 2;
     vibration.start("bump");
   if (s == 1) {
-    swing.animate("enable");
-  } else {
-    swing.animate("disable")
-    }
+    initRotation();
+    } else {
+    cancelAnimationFrame(animation);
+    animatedWidget.startAngle = 0;
+    
+  }
 }
 //Possible setting in .js/.ts
 //stepsLabel.style.fontFamily = "Tungsten-Medium";
