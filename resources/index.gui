@@ -63,32 +63,25 @@
         <image x="-12" y="-12" width="24" height="24"  href="cals.png" fill="white" />
     </g>
     <!--_____________________________________________________________________________________________________________________________WIDGET TEXT2 FROM HERE-->
-    <g transform="translate(50%,50%)" type="rotate">
-    <use id="calsLabel"  class="myWidgetTexts" href="#curvedText"  x="0" y="0" fill="white"> <!--give it an ID and set x,y to determine the center of your imaginary circle of text-->
-     
+  
+    <use id="calsLabel"  class="myWidgetTexts" href="#curvedText"  x="50%" y="50%" fill="white"> <!--give it an ID and set x,y to determine the center of your imaginary circle of text-->
         <set href="#layout" attributeName="start-angle" to="45"/> <!-- rotate the whole text Element here if needed/desired-->
     </use>
-    <animateTransform attributeType="rotate" from="45" to="405"  begin="load" repeatCount="indefinite" end="disable"  dur="60"/>
-    </g>
+   
+  
     <!--_____________________________________________________________________________________________________________________________WIDGET TEXT2 UP TO HERE-->
 
-    <!--g id="swing" transform="translate(50%,50%)" pointer-events="visible"-->
-    <g id="level2G" transform="rotate(-45)" type="g">
-    <g id="level1G" transform="rotate(45)" type="rotate">
-    
-     <use id="animatedWidget"  href="#curvedText"  x="50%" y="50%" font-family="Colfax-Regular" font-size="30" fill="white" >
-        <set href="#radius" attributeName="r" to="-107" />
-        <set href="#text" attributeName="text-buffer" to="some swinging text" />
-        <set href="#text" attributeName="letter-spacing" to="1"/>
-    </use>
-   
+    <g id="swingingText" transform="translate(50%,50%)" pointer-events="visible">
+        <use id="animatedWidget"  href="#curvedText"  x="0" y="0" font-family="Colfax-Regular" font-size="30" fill="white" >
+            <set href="#radius" attributeName="r" to="-107" />
+            <set href="#text" attributeName="text-buffer" to="some swinging text" />
+            <set href="#text" attributeName="letter-spacing" to="1"/>
+        </use>
+        <animateTransform attributeType="rotate" from="0" to="30" easing="ease-out" begin="enable" repeatCount="indefinite" end="disable"  dur="2"  repeatDur="8"   />
+        <animateTransform attributeType="rotate" from="30" to="0" easing="ease-in" begin="enable+2" repeatCount="indefinite" end="disable"  dur="2"  repeatDur="8"  />
+        <animateTransform attributeType="rotate" from="0" to="-30" easing="ease-out"  begin="enable+4" repeatCount="indefinite" end="disable"  dur="2"  repeatDur="8" />
+        <animateTransform attributeType="rotate" from="-30" to="0" easing="ease-in"  begin="enable+6" repeatCount="indefinite" end="disable"  dur="2"  repeatDur="8" final="restore" />
     </g>
-    </g>
-    <!--animateTransform attributeType="rotate" from="0" to="30" easing="ease-out" begin="enable" repeatCount="indefinite" end="disable"  dur="5"  repeatDur="20"   /-->
-    <!--animateTransform attributeType="rotate" from="30" to="0" easing="ease-in" begin="enable+5" repeatCount="indefinite" end="disable"  dur="5"  repeatDur="20"  /-->
-    <!--animateTransform attributeType="rotate" from="0" to="-30" easing="ease-out"  begin="enable+10" repeatCount="indefinite" end="disable"  dur="5"  repeatDur="20" /-->
-    <!--animateTransform attributeType="rotate" from="-30" to="0" easing="ease-in"  begin="enable+15" repeatCount="indefinite" end="disable"  dur="5"  repeatDur="20" final="restore" /-->
-    <!--/g-->
     <!--dynamically rotated text causes artifacts! make sure to cover them, with an arc eG. Didn´t so to demonstrate-->
     <!--slowly animated text "shivers" and "dances" but a initial woosh, should be fine, as well as rotate per second, eG-->
 

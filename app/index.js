@@ -72,7 +72,8 @@ clock.ontick = (evt) => {
     dateLabel.text = days[weekday] + " " + ("0" + monthday).slice(-2);
     amPmLabel.text = ampm;
 
-}; // END ON TICK
+};
+// END ON TICK
 
 // HEARTRATE-----------------------------------------------------------------------
 let hrLabel = document.getElementById("hrLabel");
@@ -102,12 +103,12 @@ if (HeartRateSensor && BodyPresenceSensor) {
 body.start();
 }
 
- // UPDATE STATS LABELS EVERY 1000ms
+ // UPDATE STATS LABELS EVERY 1000ms IF DISPLAY.ON
 const updateStats = () => {
   azmLabel.text = String(today.adjusted.activeZoneMinutes.total);
 
-  //stepsLabel.text = String(today.adjusted.steps); // steps applied and curved here
-  stepsLabel.text = "1234567aiW89"
+  stepsLabel.text = String(today.adjusted.steps); // steps applied and curved here
+  //stepsLabel.text = "1234567aiW89"
   calsLabel.text = String(today.adjusted.calories)  // calories applied and curved here
   
   myBattery.width = 26 / 100 * battery.chargeLevel;
@@ -127,7 +128,6 @@ const startTimer = () => {
     timerId = setInterval(updateStats, 1000);
   }
 } 
-
 // start/stop setInterval on display change
 const displayCheck = () => {
   if (display.on) {
@@ -136,12 +136,13 @@ const displayCheck = () => {
     stopTimer();
   }
 }
-
 // checks display change, calls start/stop
 display.addEventListener("change", displayCheck);
 startTimer();
 
-// SHOW DATAT ON CLICK
+
+
+// SWITCH IMAGE/DATA ON CLICK
 let dataButton = document.getElementById("dataButton");
 let a = 0;
 dataButton.onclick = function (evt) {
@@ -151,7 +152,7 @@ dataButton.onclick = function (evt) {
     if (a == 1) {
         azmLabel.style.display = "inline";
         chargeLabel.style.display = "inline";
-    } else {
+      } else {
         azmLabel.style.display="none";
         chargeLabel.style.display= "none";
 
@@ -159,46 +160,23 @@ dataButton.onclick = function (evt) {
 }
 
 //ANIMATED CURVED TEXT
-// animation on element.startAngle time-related;
-// svg rotations on an outer <g> may cause problems with the layout of the single chars
-// slow smooth animations may "shiver" a bit cause of BBox in the textrefresh rate plus fonthinting effect. 
-// apply text here or for static text in text-buffer / index.gui/view or styles.css
-//animatedWidget.text = "some swinging text";
-// the animation could be done in various different ways
-
-const animatedWidget = document.getElementById("animatedWidget");
-//calculate rotation-angle
-const cos = (n) => {
-n = Math.cos(n*Math.PI/180);
-return n;
-}
-
-var animation;
-const rotation = () => {
-const now = new Date();
-  let angle = (now.getSeconds() * 1000 + now.getMilliseconds()) * 6 / 1000;
-  
-  animatedWidget.startAngle = 30 * cos(8 * angle);
-  animation = requestAnimationFrame(rotation);
-}
-;
 
 // start/stop swinging on click top button
 let s = 0;
 let animateButton = document.getElementById("animateButton");
+let swingingText = document.getElementById("swingingText");
 
 animateButton.onclick = function (evt) {
   s++;
   s = s % 2;
-    vibration.start("bump");
+  vibration.start("bump");
   if (s == 1) {
-    rotation();
-    } else {
-    cancelAnimationFrame(animation);
-    animatedWidget.startAngle = 0;
+    swingingText.animate("enable")
+  } else {
+   swingingText.animate("disable")
     
   }
-}
+};
 //Possible setting in .js/.ts
 //stepsLabel.style.fontFamily = "Tungsten-Medium";
 //stepsLabel.style.fontSize = 40;
