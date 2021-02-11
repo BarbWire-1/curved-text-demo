@@ -133,7 +133,7 @@ const construct: CurvedTextWidget = (el:GraphicsElement) => {
     //}
     //let inGroup = foundEl !== undefined
     
-    el.parent.type == "rotate"? console.log(el.id+" has an outer rotation") : console.log(el.id+" has no outer rotation")
+    el.parent.type == "rotate"? console.log(el.id+" has an outer rotation") : console.log(el.id+" has no outer rotation") // checks for type="rotate" in outer <g>
     // checks, if the <use> is wrapped in an outer <g> and returns angle
     let outerGAngle = (el.parent?.["groupTransform"] === undefined) ? 0 : el.parent.groupTransform.rotate.angle;
     alignRotate.groupTransform.rotate.angle = - outerGAngle;  // so getBBox() will return unrotated widths
