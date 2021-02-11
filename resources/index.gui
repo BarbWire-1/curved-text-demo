@@ -73,8 +73,8 @@
     <!--_____________________________________________________________________________________________________________________________WIDGET TEXT2 UP TO HERE-->
 
     <!--g id="swing" transform="translate(50%,50%)" pointer-events="visible"-->
-    <!--g id="level2G"-->
-    <!--g id="level1G" transform="rotate(45)"-->
+    <g id="level2G" transform="rotate(-45)">
+    <g id="level1G" transform="rotate(45)">
     
      <use id="animatedWidget"  href="#curvedText"  x="50%" y="50%" font-family="Colfax-Regular" font-size="30" fill="white" >
         <set href="#radius" attributeName="r" to="-107" />
@@ -82,8 +82,8 @@
         <set href="#text" attributeName="letter-spacing" to="1"/>
     </use>
    
-    <!--/g-->
-    <!--/g-->
+    </g>
+    </g>
     <!--animateTransform attributeType="rotate" from="0" to="30" easing="ease-out" begin="enable" repeatCount="indefinite" end="disable"  dur="5"  repeatDur="20"   /-->
     <!--animateTransform attributeType="rotate" from="30" to="0" easing="ease-in" begin="enable+5" repeatCount="indefinite" end="disable"  dur="5"  repeatDur="20"  /-->
     <!--animateTransform attributeType="rotate" from="0" to="-30" easing="ease-out"  begin="enable+10" repeatCount="indefinite" end="disable"  dur="5"  repeatDur="20" /-->
