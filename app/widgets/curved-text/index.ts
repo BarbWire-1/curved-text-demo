@@ -125,10 +125,19 @@ const construct: CurvedTextWidget = (el:GraphicsElement) => {
       char[i].style.display = 'inherit';
     }
     
-     // checks, if the <use> is wrapped in an outer <g> and returns angle
+   
+    //snippet from Grégoire. Need to test as error if undefined
+    //let foundEl = el
+    //while(foundEl && foundEl.groupTransform === undefined){
+    //foundEl = foundEl.parent
+    //}
+    //let inGroup = foundEl !== undefined
+    
+
+    // checks, if the <use> is wrapped in an outer <g> and returns angle
     let outerGAngle = (el.parent?.["groupTransform"] === undefined) ? 0 : el.parent.groupTransform.rotate.angle;
     alignRotate.groupTransform.rotate.angle = - outerGAngle;  // so getBBox() will return unrotated widths
-    
+   
     //console.log(el.id +": "+outerGAngle);
     if (!sweepAngle) {   // sweepAngle wasn't specified, so do mode=0 (auto)
 
