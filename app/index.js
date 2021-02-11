@@ -8,7 +8,7 @@ import { HeartRateSensor } from "heart-rate";
 import { battery } from "power";
 import { vibration } from "haptics";
 import { today } from "user-activity";
-
+import { display } from "display";
 import { widgetFactory } from './widgets/widget-factory'
 import { curvedText } from './widgets/curved-text'
 
@@ -103,7 +103,7 @@ body.start();
 }
 
  // UPDATE STATS LABELS EVERY 1000ms
-setInterval(function updateStats() {
+const updateStats = () => {
   azmLabel.text = String(today.adjusted.activeZoneMinutes.total);
 
   //stepsLabel.text = String(today.adjusted.steps); // steps applied and curved here
@@ -112,8 +112,34 @@ setInterval(function updateStats() {
   
   myBattery.width = 26 / 100 * battery.chargeLevel;
   chargeLabel.text = String(Math.floor(battery.chargeLevel) + "%");
-}, 1000);
+};
+// TIMER FOR SETINTERVAL
+let timerId = 0;
+const stopTimer = () => {
+  if (timerId != 0) {
+    clearInterval(timerId);
+    timerId = 0;
+  }
+}
 
+const startTimer = () => {
+  if (timerId == 0) {
+    timerId = setInterval(updateStats, 1000);
+  }
+} 
+
+// start/stop setInterval on display change
+const displayCheck = () => {
+  if (display.on) {
+    startTimer();
+  } else {
+    stopTimer();
+  }
+}
+
+// checks display change, calls start/stop
+display.addEventListener("change", displayCheck);
+startTimer();
 
 // SHOW DATAT ON CLICK
 let dataButton = document.getElementById("dataButton");
