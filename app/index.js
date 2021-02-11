@@ -171,9 +171,9 @@ animateButton.onclick = function (evt) {
   s = s % 2;
   vibration.start("bump");
   if (s == 1) {
-    swingingText.animate("enable")
+    swingingText.animate("enable");
   } else {
-   swingingText.animate("disable")
+    swingingText.animate("disable");
     
   }
 };
