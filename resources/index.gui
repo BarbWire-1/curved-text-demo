@@ -63,7 +63,7 @@
         <image x="-12" y="-12" width="24" height="24"  href="cals.png" fill="white" />
     </g>
     <!--_____________________________________________________________________________________________________________________________WIDGET TEXT2 FROM HERE-->
-    <g transform="translate(50%,50%)">
+    <g transform="translate(50%,50%)" type="rotate">
     <use id="calsLabel"  class="myWidgetTexts" href="#curvedText"  x="0" y="0" fill="white"> <!--give it an ID and set x,y to determine the center of your imaginary circle of text-->
      
         <set href="#layout" attributeName="start-angle" to="45"/> <!-- rotate the whole text Element here if needed/desired-->
@@ -73,8 +73,8 @@
     <!--_____________________________________________________________________________________________________________________________WIDGET TEXT2 UP TO HERE-->
 
     <!--g id="swing" transform="translate(50%,50%)" pointer-events="visible"-->
-    <g id="level2G" transform="rotate(-45)">
-    <g id="level1G" transform="rotate(45)">
+    <g id="level2G" transform="rotate(-45)" type="g">
+    <g id="level1G" transform="rotate(45)" type="rotate">
     
      <use id="animatedWidget"  href="#curvedText"  x="50%" y="50%" font-family="Colfax-Regular" font-size="30" fill="white" >
         <set href="#radius" attributeName="r" to="-107" />
