@@ -102,11 +102,12 @@ if (HeartRateSensor && BodyPresenceSensor) {
 body.start();
 }
 
- // UPDATE STATS LABELS EVERY SEC
+ // UPDATE STATS LABELS EVERY 1000ms
 setInterval(function updateStats() {
   azmLabel.text = String(today.adjusted.activeZoneMinutes.total);
 
-  stepsLabel.text = String(today.adjusted.steps); // steps applied and curved here
+  //stepsLabel.text = String(today.adjusted.steps); // steps applied and curved here
+  stepsLabel.text = "1234567aiW89"
   calsLabel.text = String(today.adjusted.calories)  // calories applied and curved here
   
   myBattery.width = 26 / 100 * battery.chargeLevel;
